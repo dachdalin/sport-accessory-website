@@ -1,0 +1,162 @@
+import type { Product } from "./cart-context"
+
+export const categories = [
+  { id: "fitness", name: "Fitness", icon: "Dumbbell" },
+  { id: "football", name: "Football", icon: "Target" },
+  { id: "basketball", name: "Basketball", icon: "Circle" },
+  { id: "running", name: "Running", icon: "Footprints" },
+  { id: "gym", name: "Gym Accessories", icon: "Timer" },
+  { id: "outdoor", name: "Outdoor Sports", icon: "Mountain" },
+]
+
+export const products: Product[] = [
+  {
+    id: "1",
+    name: "Pro Training Gloves",
+    price: 29.99,
+    image: "/products/gloves.jpg",
+    category: "gym",
+    rating: 4.8,
+    description: "Premium quality training gloves with wrist support. Perfect for weightlifting and cross-training. Features breathable mesh and reinforced palms.",
+    stock: 25,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "Red", "Blue"],
+  },
+  {
+    id: "2",
+    name: "Resistance Bands Set",
+    price: 24.99,
+    image: "/products/bands.jpg",
+    category: "fitness",
+    rating: 4.7,
+    description: "Complete set of 5 resistance bands with varying resistance levels. Includes carrying bag and exercise guide.",
+    stock: 50,
+    colors: ["Multi-Color"],
+  },
+  {
+    id: "3",
+    name: "Premium Football",
+    price: 49.99,
+    image: "/products/football.jpg",
+    category: "football",
+    rating: 4.9,
+    description: "Match-quality football with superior grip and durability. FIFA approved for professional play.",
+    stock: 30,
+    sizes: ["Size 4", "Size 5"],
+    colors: ["White/Black", "Orange/Blue"],
+  },
+  {
+    id: "4",
+    name: "Basketball Elite",
+    price: 44.99,
+    image: "/products/basketball.jpg",
+    category: "basketball",
+    rating: 4.6,
+    description: "Indoor/outdoor basketball with composite leather cover. Excellent grip and bounce consistency.",
+    stock: 20,
+    sizes: ["Size 6", "Size 7"],
+    colors: ["Orange", "Black/Gold"],
+  },
+  {
+    id: "5",
+    name: "Running Shoes Pro",
+    price: 129.99,
+    image: "/products/shoes.jpg",
+    category: "running",
+    rating: 4.8,
+    description: "Lightweight running shoes with responsive cushioning. Breathable upper and durable outsole.",
+    stock: 15,
+    sizes: ["US 7", "US 8", "US 9", "US 10", "US 11", "US 12"],
+    colors: ["Black/White", "Blue/Orange", "Gray/Green"],
+  },
+  {
+    id: "6",
+    name: "Yoga Mat Premium",
+    price: 34.99,
+    image: "/products/yoga-mat.jpg",
+    category: "fitness",
+    rating: 4.5,
+    description: "Extra thick yoga mat with non-slip surface. Perfect for yoga, pilates, and floor exercises.",
+    stock: 40,
+    colors: ["Purple", "Blue", "Black", "Pink"],
+  },
+  {
+    id: "7",
+    name: "Jump Rope Speed",
+    price: 14.99,
+    image: "/products/jump-rope.jpg",
+    category: "gym",
+    rating: 4.4,
+    description: "Professional speed jump rope with ball bearings. Adjustable length and comfortable handles.",
+    stock: 60,
+    colors: ["Black", "Red"],
+  },
+  {
+    id: "8",
+    name: "Hiking Backpack 40L",
+    price: 79.99,
+    image: "/products/backpack.jpg",
+    category: "outdoor",
+    rating: 4.7,
+    description: "Durable hiking backpack with multiple compartments. Water-resistant and ergonomic design.",
+    stock: 18,
+    colors: ["Navy", "Green", "Black"],
+  },
+  {
+    id: "9",
+    name: "Fitness Tracker Band",
+    price: 59.99,
+    image: "/products/tracker.jpg",
+    category: "fitness",
+    rating: 4.6,
+    description: "Advanced fitness tracker with heart rate monitor. Tracks steps, calories, and sleep patterns.",
+    stock: 35,
+    colors: ["Black", "Blue", "Pink"],
+  },
+  {
+    id: "10",
+    name: "Gym Duffel Bag",
+    price: 39.99,
+    image: "/products/duffel.jpg",
+    category: "gym",
+    rating: 4.5,
+    description: "Spacious gym bag with shoe compartment. Water-resistant material and adjustable strap.",
+    stock: 28,
+    colors: ["Black", "Gray", "Navy"],
+  },
+  {
+    id: "11",
+    name: "Soccer Shin Guards",
+    price: 19.99,
+    image: "/products/shin-guards.jpg",
+    category: "football",
+    rating: 4.3,
+    description: "Lightweight shin guards with ankle protection. Comfortable fit and superior protection.",
+    stock: 45,
+    sizes: ["S", "M", "L"],
+    colors: ["Black", "White"],
+  },
+  {
+    id: "12",
+    name: "Camping Tent 2-Person",
+    price: 149.99,
+    image: "/products/tent.jpg",
+    category: "outdoor",
+    rating: 4.8,
+    description: "Waterproof camping tent for 2 persons. Easy setup with included rain fly and ground sheet.",
+    stock: 12,
+    colors: ["Green", "Orange", "Blue"],
+  },
+]
+
+export function getProductById(id: string): Product | undefined {
+  return products.find((p) => p.id === id)
+}
+
+export function getProductsByCategory(category: string): Product[] {
+  return products.filter((p) => p.category === category)
+}
+
+export function getFeaturedProducts(): Product[] {
+  return products.filter((p) => p.rating >= 4.6).slice(0, 4)
+}
