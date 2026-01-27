@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   title: 'SportGear Pro | Premium Sport Accessories',
   description: 'Quality gear for every athlete. Fast delivery and trusted store for fitness, football, basketball, running, and outdoor sports accessories.',
   keywords: ['sport accessories', 'fitness gear', 'gym equipment', 'athletic wear', 'sports store'],
-    generator: 'v0.app'
 }
 
 export const viewport: Viewport = {
