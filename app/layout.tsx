@@ -2,10 +2,12 @@ import React from "react"
 import type { Metadata, Viewport } from 'next'
 import { Montserrat, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { LanguageProvider } from '@/lib/language-context'
+import { WishlistProvider } from '@/lib/wishlist-context'
 import './globals.css'
 
 const montserrat = Montserrat({ 
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: '--font-heading'
 });
 const inter = Inter({ 
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#1D4ED8',
+  themeColor: '#f97316',
   width: 'device-width',
   initialScale: 1,
 }
@@ -33,7 +35,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} ${inter.variable} font-sans antialiased`}>
-        {children}
+        <LanguageProvider>
+          <WishlistProvider>
+            {children}
+          </WishlistProvider>
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>
