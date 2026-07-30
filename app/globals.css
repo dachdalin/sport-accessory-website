@@ -152,3 +152,12 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.65 0.22 40);
 }
+
+/* Hide scrollbar utility */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
