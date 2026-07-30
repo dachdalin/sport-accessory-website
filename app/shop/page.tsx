@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ProductCard } from "@/components/product-card"
+import { ProductCard, getDiscountInfo } from "@/components/product-card"
 import { CartProvider } from "@/lib/cart-context"
 import { products, categories } from "@/lib/products"
 import {
@@ -41,12 +41,11 @@ const sortOptions = [
   { value: "newest", label: "Newest", icon: Package },
 ]
 
-const productBadges: Record<string, { label: string; color: string }> = {
+// HOT/NEW labels (separate from discount badges handled by ProductCard)
+const productLabels: Record<string, { label: string; color: string }> = {
   "5": { label: "HOT", color: "bg-orange-500" },
   "3": { label: "NEW", color: "bg-blue-500" },
-  "12": { label: "SALE", color: "bg-green-500" },
   "8": { label: "NEW", color: "bg-blue-500" },
-  "1": { label: "HOT", color: "bg-orange-500" },
 }
 
 function RangeSlider({
@@ -114,12 +113,14 @@ function FilterPanel({
   priceRange, setPriceRange,
   minRating, setMinRating,
   inStockOnly, setInStockOnly,
+  saleOnly, setSaleOnly,
   onClear,
 }: {
   selectedCategory: string; setSelectedCategory: (c: string) => void
   priceRange: [number, number]; setPriceRange: (r: [number, number]) => void
   minRating: number; setMinRating: (r: number) => void
   inStockOnly: boolean; setInStockOnly: (v: boolean) => void
+  saleOnly: boolean; setSaleOnly: (v: boolean) => void
   onClear: () => void
 }) {
   const allCategories = [{ id: "all", name: "All Products", icon: "Target" }, ...categories]
@@ -191,6 +192,25 @@ function FilterPanel({
 
       <div className="h-px bg-white/8" />
 
+      {/* Sale Only */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-semibold text-white flex items-center gap-1.5" style={{ fontFamily: "var(--font-heading)" }}>
+            <span className="text-red-400 text-xs font-black bg-red-500/15 border border-red-500/25 px-1.5 py-0.5 rounded-md">SALE</span>
+            On Sale Only
+          </h3>
+          <p className="text-xs text-white/40 mt-0.5">Show discounted items only</p>
+        </div>
+        <button
+          onClick={() => setSaleOnly(!saleOnly)}
+          className={`relative w-11 h-6 rounded-full transition-colors ${saleOnly ? "bg-red-500" : "bg-white/10"}`}
+        >
+          <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform ${saleOnly ? "translate-x-5" : ""}`} />
+        </button>
+      </div>
+
+      <div className="h-px bg-white/8" />
+
       {/* In Stock */}
       <div className="flex items-center justify-between">
         <div>
@@ -228,6 +248,7 @@ function ShopContent() {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 200])
   const [minRating, setMinRating] = useState(0)
   const [inStockOnly, setInStockOnly] = useState(false)
+  const [saleOnly, setSaleOnly] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [sortOpen, setSortOpen] = useState(false)
@@ -253,6 +274,7 @@ function ShopContent() {
     priceRange[0] > 0 || priceRange[1] < 200,
     minRating > 0,
     inStockOnly,
+    saleOnly,
   ].filter(Boolean).length
 
   const filteredProducts = useMemo(() => {
@@ -261,6 +283,7 @@ function ShopContent() {
     filtered = filtered.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1])
     if (minRating > 0) filtered = filtered.filter((p) => p.rating >= minRating)
     if (inStockOnly) filtered = filtered.filter((p) => p.stock > 0)
+    if (saleOnly) filtered = filtered.filter((p) => p.originalPrice && p.originalPrice > p.price)
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase()
       filtered = filtered.filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
@@ -280,6 +303,7 @@ function ShopContent() {
     setPriceRange([0, 200])
     setMinRating(0)
     setInStockOnly(false)
+    setSaleOnly(false)
     setSearchQuery("")
   }
 
@@ -382,6 +406,7 @@ function ShopContent() {
                   priceRange={priceRange} setPriceRange={setPriceRange}
                   minRating={minRating} setMinRating={setMinRating}
                   inStockOnly={inStockOnly} setInStockOnly={setInStockOnly}
+                  saleOnly={saleOnly} setSaleOnly={setSaleOnly}
                   onClear={clearAll}
                 />
               </div>
@@ -501,9 +526,10 @@ function ShopContent() {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                     {filteredProducts.map((product) => (
                       <div key={product.id} className="relative">
-                        {productBadges[product.id] && (
-                          <span className={`absolute top-2 right-2 z-20 ${productBadges[product.id].color} text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg`}>
-                            {productBadges[product.id].label}
+                        {/* HOT/NEW label (top-right, discount badge is top-left on card) */}
+                        {productLabels[product.id] && (
+                          <span className={`absolute top-2 right-2 z-20 ${productLabels[product.id].color} text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg pointer-events-none`}>
+                            {productLabels[product.id].label}
                           </span>
                         )}
                         <ProductCard product={product} />
@@ -512,48 +538,74 @@ function ShopContent() {
                   </div>
                 ) : (
                   <div className="flex flex-col gap-3">
-                    {filteredProducts.map((product) => (
-                      <div
-                        key={product.id}
-                        className="flex gap-4 bg-white/4 border border-white/8 rounded-2xl p-4 hover:border-orange-500/25 transition-all group"
-                      >
-                        <div className="relative w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-xl overflow-hidden bg-white/5">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={product.image || "/placeholder.svg"}
-                            alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                          {productBadges[product.id] && (
-                            <span className={`absolute top-1.5 left-1.5 ${productBadges[product.id].color} text-white text-[9px] font-black px-1.5 py-0.5 rounded-full`}>
-                              {productBadges[product.id].label}
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
-                          <div>
-                            <h3 className="font-bold text-white text-sm md:text-base line-clamp-1" style={{ fontFamily: "var(--font-heading)" }}>
-                              {product.name}
-                            </h3>
-                            <p className="text-white/40 text-xs md:text-sm mt-1 line-clamp-2">{product.description}</p>
-                            <div className="flex items-center gap-1 mt-2">
-                              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                              <span className="text-xs text-white/50">{product.rating}</span>
-                              <span className="text-white/20 text-xs mx-1">·</span>
-                              <span className="text-xs text-white/40 capitalize">{product.category}</span>
+                    {filteredProducts.map((product) => {
+                      const { hasDiscount, badgeLabel } = getDiscountInfo(product)
+                      return (
+                        <div
+                          key={product.id}
+                          className="flex gap-4 bg-white/4 border border-white/8 rounded-2xl p-4 hover:border-orange-500/25 transition-all group"
+                        >
+                          <div className="relative w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-xl overflow-hidden bg-white/5">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={product.image || "/placeholder.svg"}
+                              alt={product.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            {/* Discount badge */}
+                            {hasDiscount && (
+                              <span className="absolute top-1.5 left-1.5 bg-gradient-to-br from-red-500 to-rose-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-lg leading-none">
+                                {badgeLabel}
+                              </span>
+                            )}
+                            {/* HOT/NEW label */}
+                            {!hasDiscount && productLabels[product.id] && (
+                              <span className={`absolute top-1.5 left-1.5 ${productLabels[product.id].color} text-white text-[9px] font-black px-1.5 py-0.5 rounded-full`}>
+                                {productLabels[product.id].label}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+                            <div>
+                              <div className="flex items-start gap-2 flex-wrap">
+                                <h3 className="font-bold text-white text-sm md:text-base line-clamp-1 flex-1" style={{ fontFamily: "var(--font-heading)" }}>
+                                  {product.name}
+                                </h3>
+                                {hasDiscount && (
+                                  <span className="text-[10px] font-black bg-red-500/15 border border-red-500/25 text-red-400 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                    {badgeLabel} OFF
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-white/40 text-xs md:text-sm mt-1 line-clamp-2">{product.description}</p>
+                              <div className="flex items-center gap-1 mt-2">
+                                <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                                <span className="text-xs text-white/50">{product.rating}</span>
+                                <span className="text-white/20 text-xs mx-1">·</span>
+                                <span className="text-xs text-white/40 capitalize">{product.category}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between mt-3">
+                              <div>
+                                {hasDiscount ? (
+                                  <div className="flex items-baseline gap-2">
+                                    <span className="text-lg font-black text-red-400">${product.price.toFixed(2)}</span>
+                                    <span className="text-sm text-white/35 line-through">${product.originalPrice!.toFixed(2)}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-lg font-black text-white">${product.price.toFixed(2)}</span>
+                                )}
+                              </div>
+                              <button
+                                className="bg-orange-500 hover:bg-orange-400 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40"
+                              >
+                                Add to Cart
+                              </button>
                             </div>
                           </div>
-                          <div className="flex items-center justify-between mt-3">
-                            <span className="text-lg font-black text-white">${product.price.toFixed(2)}</span>
-                            <button
-                              className="bg-orange-500 hover:bg-orange-400 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40"
-                            >
-                              Add to Cart
-                            </button>
-                          </div>
                         </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 )
               ) : (
@@ -627,6 +679,7 @@ function ShopContent() {
             priceRange={priceRange} setPriceRange={setPriceRange}
             minRating={minRating} setMinRating={setMinRating}
             inStockOnly={inStockOnly} setInStockOnly={setInStockOnly}
+            saleOnly={saleOnly} setSaleOnly={setSaleOnly}
             onClear={clearAll}
           />
         </div>

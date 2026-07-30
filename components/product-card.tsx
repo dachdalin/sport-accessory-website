@@ -11,26 +11,65 @@ interface ProductCardProps {
   product: Product
 }
 
+// ─── Shared discount helpers ────────────────────────────────────────────────────
+export function getDiscountInfo(product: Product): {
+  hasDiscount: boolean
+  badgeLabel: string
+  savings: number
+  pctOff: number
+} {
+  if (!product.originalPrice || product.originalPrice <= product.price) {
+    return { hasDiscount: false, badgeLabel: "", savings: 0, pctOff: 0 }
+  }
+  const savings = product.originalPrice - product.price
+  const pctOff = Math.round((savings / product.originalPrice) * 100)
+
+  const badgeLabel =
+    product.discountType === "amount"
+      ? `-$${savings % 1 === 0 ? savings.toFixed(0) : savings.toFixed(2)}`
+      : `-${pctOff}%`
+
+  return { hasDiscount: true, badgeLabel, savings, pctOff }
+}
+
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
+  const { hasDiscount, badgeLabel } = getDiscountInfo(product)
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white/4 border border-white/8 hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/5">
+
+      {/* ── Image area ────────────────────────────────────────────────────────── */}
       <Link href={`/product/${product.id}`} className="relative aspect-square overflow-hidden bg-white/5">
         <Image
           src={product.image || "/placeholder.svg"}
           alt={product.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-108"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
         />
-        {product.stock < 10 && product.stock > 0 && (
-          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-lg flex items-center gap-1">
+
+        {/* Top-left: discount badge OR low-stock badge */}
+        {hasDiscount ? (
+          <span className="absolute top-2 left-2 z-10 bg-gradient-to-br from-red-500 to-rose-600 text-white text-[11px] font-black px-2 py-1 rounded-lg shadow-lg shadow-red-500/30 leading-none tracking-wide">
+            {badgeLabel}
+          </span>
+        ) : product.stock < 10 && product.stock > 0 ? (
+          <span className="absolute top-2 left-2 z-10 bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-lg flex items-center gap-1">
             <Zap className="h-2.5 w-2.5 fill-white" />
             Low Stock
           </span>
+        ) : null}
+
+        {/* Low-stock badge alongside discount */}
+        {hasDiscount && product.stock < 10 && product.stock > 0 && (
+          <span className="absolute top-2 right-2 z-10 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+            <Zap className="h-2 w-2 fill-white" />
+            Low
+          </span>
         )}
-        {/* Quick add overlay */}
+
+        {/* Quick Add overlay */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
           <button
             onClick={(e) => {
@@ -44,20 +83,42 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
+      {/* ── Info area ─────────────────────────────────────────────────────────── */}
       <div className="flex flex-col flex-1 p-3 md:p-4">
         <Link href={`/product/${product.id}`}>
-          <h3 className="font-bold text-white text-sm hover:text-orange-400 transition-colors line-clamp-1" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h3
+            className="font-bold text-white text-sm hover:text-orange-400 transition-colors line-clamp-1"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
             {product.name}
           </h3>
         </Link>
 
+        {/* Rating */}
         <div className="flex items-center gap-1 mt-1">
           <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
           <span className="text-xs text-white/40">{product.rating}</span>
         </div>
 
+        {/* Price row */}
         <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/8">
-          <span className="text-base font-black text-white">${product.price.toFixed(2)}</span>
+          <div className="flex flex-col">
+            {hasDiscount ? (
+              <>
+                {/* Sale price */}
+                <span className="text-base font-black text-red-400 leading-tight">
+                  ${product.price.toFixed(2)}
+                </span>
+                {/* Original price, struck through */}
+                <span className="text-xs text-white/35 line-through leading-tight mt-0.5">
+                  ${product.originalPrice!.toFixed(2)}
+                </span>
+              </>
+            ) : (
+              <span className="text-base font-black text-white">${product.price.toFixed(2)}</span>
+            )}
+          </div>
+
           <Button
             size="sm"
             id={`add-to-cart-${product.id}`}

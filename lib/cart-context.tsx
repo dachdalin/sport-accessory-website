@@ -6,6 +6,8 @@ export interface Product {
   id: string
   name: string
   price: number
+  originalPrice?: number          // price before discount
+  discountType?: "percent" | "amount"  // show as "30% OFF" or "$10 OFF"
   image: string
   category: string
   rating: number
