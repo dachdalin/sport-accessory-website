@@ -40,6 +40,10 @@ import {
   Shield,
   Eye,
   EyeOff,
+  ChevronLeft,
+  Download,
+  FileText,
+  Tag,
 } from "lucide-react"
 
 // ─── Types & constants ────────────────────────────────────────────────────────
@@ -72,10 +76,66 @@ const MOCK_USER: UserProfile = {
   memberSince: "Jan 2024",
 }
 
-const MOCK_ORDERS = [
-  { id: "#ORD-1001", date: "Jul 15, 2026", status: "Delivered", total: 89.99, items: 2 },
-  { id: "#ORD-0988", date: "Jun 28, 2026", status: "Delivered", total: 54.97, items: 3 },
-  { id: "#ORD-0921", date: "May 10, 2026", status: "Delivered", total: 29.99, items: 1 },
+interface OrderProduct {
+  id: string
+  name: string
+  image: string
+  price: number
+  qty: number
+  size?: string
+  color?: string
+}
+
+interface Order {
+  id: string
+  date: string
+  status: string
+  products: OrderProduct[]
+  subtotal: number
+  shipping: number
+  discount: number
+  total: number
+}
+
+const MOCK_ORDERS: Order[] = [
+  {
+    id: "#ORD-1001",
+    date: "Jul 15, 2026",
+    status: "Delivered",
+    products: [
+      { id: "5", name: "Running Shoes Pro", image: "/products/shoes.jpg", price: 89.99, qty: 1, size: "US 9", color: "Black/White" },
+    ],
+    subtotal: 89.99,
+    shipping: 0,
+    discount: 0,
+    total: 89.99,
+  },
+  {
+    id: "#ORD-0988",
+    date: "Jun 28, 2026",
+    status: "Delivered",
+    products: [
+      { id: "6", name: "Yoga Mat Premium", image: "/products/yoga-mat.jpg", price: 34.99, qty: 1, color: "Purple" },
+      { id: "7", name: "Jump Rope Speed", image: "/products/jump-rope.jpg", price: 9.99, qty: 2, color: "Black" },
+      { id: "2", name: "Resistance Bands Set", image: "/products/bands.jpg", price: 14.00, qty: 1 },
+    ],
+    subtotal: 69.97,
+    shipping: 0,
+    discount: 15.00,
+    total: 54.97,
+  },
+  {
+    id: "#ORD-0921",
+    date: "May 10, 2026",
+    status: "Delivered",
+    products: [
+      { id: "1", name: "Pro Training Gloves", image: "/products/gloves.jpg", price: 29.99, qty: 1, size: "M", color: "Black" },
+    ],
+    subtotal: 29.99,
+    shipping: 5.99,
+    discount: 5.99,
+    total: 29.99,
+  },
 ]
 
 const NAV_ITEMS: { key: Tab; label: string; icon: React.ElementType }[] = [
@@ -106,6 +166,9 @@ function DashboardContent() {
   const [user, setUser] = useState<UserProfile>(MOCK_USER)
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState({ name: user.name, email: user.email, phone: user.phone })
+
+  // Order detail state
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
 
   // Password state
   const [isChangingPassword, setIsChangingPassword] = useState(false)
@@ -151,6 +214,48 @@ function DashboardContent() {
     setPasswordForm({ newPassword: "", confirmPassword: "" })
     setIsChangingPassword(false)
     setTimeout(() => setPasswordSuccess(false), 3000)
+  }
+
+  function downloadInvoice(order: Order) {
+    const lines = [
+      "============================================",
+      "         SPORTGEAR PRO — INVOICE",
+      "============================================",
+      `Order:    ${order.id}`,
+      `Date:     ${order.date}`,
+      `Status:   ${order.status}`,
+      "",
+      "--------------------------------------------",
+      "ITEMS",
+      "--------------------------------------------",
+      ...order.products.map(
+        (p) =>
+          `${p.name}${p.size ? ` (${p.size})` : ""}${p.color ? ` / ${p.color}` : ""}` +
+          `\n  Qty: ${p.qty}  ×  $${p.price.toFixed(2)} = $${(p.price * p.qty).toFixed(2)}`
+      ),
+      "",
+      "--------------------------------------------",
+      "SUMMARY",
+      "--------------------------------------------",
+      `Subtotal:  $${order.subtotal.toFixed(2)}`,
+      `Shipping:  ${order.shipping === 0 ? "FREE" : `$${order.shipping.toFixed(2)}`}`,
+      ...(order.discount > 0 ? [`Discount:  -$${order.discount.toFixed(2)}`] : []),
+      "--------------------------------------------",
+      `TOTAL:     $${order.total.toFixed(2)}`,
+      "",
+      "Thank you for shopping with SportGear Pro!",
+      "============================================",
+    ].join("\n")
+
+    const blob = new Blob([lines], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `invoice-${order.id.replace("#", "")}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
   function submitNewAddress() {
@@ -419,6 +524,137 @@ function DashboardContent() {
   // ── Section: Order History ────────────────────────────────────────────────────
 
   function renderOrders() {
+    const selectedOrder = MOCK_ORDERS.find((o) => o.id === selectedOrderId)
+
+    // ── Detail view ────────────────────────────────────────────────────────────
+    if (selectedOrder) {
+      return (
+        <div className="space-y-4">
+          {/* Header */}
+          <div className="flex items-center justify-between gap-3">
+            <button
+              onClick={() => setSelectedOrderId(null)}
+              className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back to Orders
+            </button>
+            <Button
+              size="sm"
+              onClick={() => downloadInvoice(selectedOrder)}
+              className="bg-white/8 hover:bg-white/14 border border-white/10 hover:border-white/20 text-white gap-1.5 h-8"
+            >
+              <Download className="h-3.5 w-3.5" />
+              Download Invoice
+            </Button>
+          </div>
+
+          {/* Order meta card */}
+          <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="h-11 w-11 rounded-xl bg-orange-500/15 flex items-center justify-center flex-shrink-0">
+                  <FileText className="h-5 w-5 text-orange-400" />
+                </div>
+                <div>
+                  <p className="font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+                    {selectedOrder.id}
+                  </p>
+                  <p className="text-xs text-white/45 mt-0.5">{selectedOrder.date}</p>
+                </div>
+              </div>
+              <span className={`text-xs font-semibold px-3 py-1.5 rounded-full self-start sm:self-auto ${orderStatusClass(selectedOrder.status)}`}>
+                {selectedOrder.status}
+              </span>
+            </div>
+          </div>
+
+          {/* Product list */}
+          <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-5">
+            <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">
+              Items ({selectedOrder.products.length})
+            </h3>
+            <div className="space-y-3">
+              {selectedOrder.products.map((product, i) => (
+                <div key={`${product.id}-${i}`} className="flex items-center gap-4">
+                  <Link
+                    href={`/product/${product.id}`}
+                    className="relative h-16 w-16 rounded-xl overflow-hidden bg-white/5 flex-shrink-0 border border-white/8"
+                  >
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </Link>
+                  <div className="flex-1 min-w-0">
+                    <Link href={`/product/${product.id}`}>
+                      <p className="text-sm font-semibold text-white hover:text-orange-400 transition-colors line-clamp-1">
+                        {product.name}
+                      </p>
+                    </Link>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1">
+                      {product.size && (
+                        <span className="text-xs text-white/45">Size: {product.size}</span>
+                      )}
+                      {product.color && (
+                        <span className="text-xs text-white/45">Color: {product.color}</span>
+                      )}
+                      <span className="text-xs text-white/45">Qty: {product.qty}</span>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-sm font-bold text-white">
+                      ${(product.price * product.qty).toFixed(2)}
+                    </p>
+                    {product.qty > 1 && (
+                      <p className="text-xs text-white/35 mt-0.5">${product.price.toFixed(2)} each</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Summary card */}
+          <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-5">
+            <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">
+              Order Summary
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/60">Subtotal</span>
+                <span className="text-white">${selectedOrder.subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/60">Shipping</span>
+                <span className={selectedOrder.shipping === 0 ? "text-green-400 font-medium" : "text-white"}>
+                  {selectedOrder.shipping === 0 ? "FREE" : `$${selectedOrder.shipping.toFixed(2)}`}
+                </span>
+              </div>
+              {selectedOrder.discount > 0 && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-1.5 text-white/60">
+                    <Tag className="h-3.5 w-3.5 text-green-400" />
+                    Discount
+                  </span>
+                  <span className="text-green-400 font-medium">−${selectedOrder.discount.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="h-px bg-white/8 my-1" />
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-white">Total</span>
+                <span className="text-lg font-black text-orange-400">${selectedOrder.total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    // ── List view ──────────────────────────────────────────────────────────────
     return (
       <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-6">
         <h2 className="text-lg font-bold text-white mb-6" style={{ fontFamily: "var(--font-heading)" }}>
@@ -445,18 +681,33 @@ function DashboardContent() {
                     <Package className="h-5 w-5 text-orange-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-white text-sm">{order.id}</p>
+                    <button
+                      onClick={() => setSelectedOrderId(order.id)}
+                      className="font-semibold text-orange-400 hover:text-orange-300 underline underline-offset-2 decoration-orange-400/40 hover:decoration-orange-300 text-sm transition-colors text-left"
+                    >
+                      {order.id}
+                    </button>
                     <p className="text-xs text-white/45 mt-0.5">
-                      {order.date} · {order.items} item{order.items > 1 ? "s" : ""}
+                      {order.date} · {order.products.length} item{order.products.length > 1 ? "s" : ""}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 sm:flex-col sm:items-end">
+                <div className="flex sm:flex-col items-center sm:items-end gap-3">
                   <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${orderStatusClass(order.status)}`}>
                     {order.status}
                   </span>
-                  <span className="font-bold text-white text-sm">${order.total.toFixed(2)}</span>
+                  <div className="flex items-center gap-2 sm:gap-1.5 sm:flex-col sm:items-end">
+                    <span className="font-bold text-white text-sm">${order.total.toFixed(2)}</span>
+                    <Button
+                      size="sm"
+                      onClick={() => downloadInvoice(order)}
+                      className="h-7 px-2.5 bg-white/6 hover:bg-white/12 border border-white/10 text-white/60 hover:text-white gap-1 text-xs"
+                    >
+                      <Download className="h-3 w-3" />
+                      Invoice
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -670,6 +921,50 @@ function DashboardContent() {
     )
   }
 
+  // ── Logout dialog ────────────────────────────────────────────────────────────
+
+  function LogoutDialog({ triggerClassName, iconOnly }: { triggerClassName?: string; iconOnly?: boolean }) {
+    return (
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            className={
+              triggerClassName ??
+              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/5 transition-all text-left"
+            }
+          >
+            <LogOut className="h-4 w-4 flex-shrink-0" />
+            {!iconOnly && "Logout"}
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="bg-[#0D1525] border-white/10 text-white max-w-sm">
+          <AlertDialogHeader>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="h-10 w-10 rounded-xl bg-white/8 flex items-center justify-center flex-shrink-0">
+                <LogOut className="h-5 w-5 text-white/70" />
+              </div>
+              <AlertDialogTitle className="text-white text-lg">Log out?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-white/50 text-sm leading-relaxed">
+              You will be signed out of your account. Your cart and wishlist will be cleared.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-2">
+            <AlertDialogCancel className="border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white">
+              Stay
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-orange-500 hover:bg-orange-600 text-white border-0"
+              onClick={() => router.push("/login")}
+            >
+              Yes, log out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    )
+  }
+
   // ── Delete account dialog ────────────────────────────────────────────────────
 
   function DeleteAccountDialog({ triggerClassName }: { triggerClassName?: string }) {
@@ -686,15 +981,20 @@ function DashboardContent() {
             Delete Account
           </button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="bg-[#0D1525] border-white/10 text-white">
+        <AlertDialogContent className="bg-[#0D1525] border-white/10 text-white max-w-sm">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">Delete your account?</AlertDialogTitle>
-            <AlertDialogDescription className="text-white/55">
+            <div className="flex items-center gap-3 mb-1">
+              <div className="h-10 w-10 rounded-xl bg-red-500/15 flex items-center justify-center flex-shrink-0">
+                <Trash2 className="h-5 w-5 text-red-400" />
+              </div>
+              <AlertDialogTitle className="text-white text-lg">Delete account?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-white/50 text-sm leading-relaxed">
               This will permanently erase your account, order history, saved addresses, and wishlist.
-              This action cannot be undone.
+              This action <span className="text-white font-medium">cannot be undone</span>.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="mt-2">
             <AlertDialogCancel className="border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white">
               Cancel
             </AlertDialogCancel>
@@ -755,13 +1055,7 @@ function DashboardContent() {
 
             {/* Logout + Delete */}
             <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-2">
-              <Link
-                href="/login"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/5 transition-all"
-              >
-                <LogOut className="h-4 w-4 flex-shrink-0" />
-                Logout
-              </Link>
+              <LogoutDialog />
               <DeleteAccountDialog />
             </div>
           </aside>
@@ -779,9 +1073,7 @@ function DashboardContent() {
                   <p className="font-semibold text-white text-sm truncate">{user.name}</p>
                   <p className="text-xs text-white/45 truncate">{user.email}</p>
                 </div>
-                <Link href="/login" className="p-2 rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-colors">
-                  <LogOut className="h-4 w-4" />
-                </Link>
+                <LogoutDialog triggerClassName="p-2 rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-colors flex items-center" iconOnly />
               </div>
 
               {/* Horizontal tab strip */}
