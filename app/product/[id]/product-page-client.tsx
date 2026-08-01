@@ -7,7 +7,8 @@ import { notFound } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { CartProvider, useCart } from "@/lib/cart-context"
-import { getProductById } from "@/lib/products"
+import { getProductById, getProductsByCategory, products } from "@/lib/products"
+import { ProductCard } from "@/components/product-card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Star, Minus, Plus, ShoppingCart, ChevronLeft, Truck, Shield, RotateCcw } from "lucide-react"
@@ -23,6 +24,10 @@ function ProductContent({ productId }: { productId: string }) {
   if (!product) {
     notFound()
   }
+
+  const sameCat = getProductsByCategory(product.category).filter((p) => p.id !== product.id)
+  const others = products.filter((p) => p.id !== product.id && p.category !== product.category)
+  const relatedProducts = [...sameCat, ...others].slice(0, 4)
 
   const handleAddToCart = () => {
     addItem(product, quantity, selectedSize, selectedColor)
@@ -196,8 +201,8 @@ function ProductContent({ productId }: { productId: string }) {
                 <div className="prose prose-sm max-w-none">
                   <p className="text-muted-foreground">{product.description}</p>
                   <p className="text-muted-foreground mt-4">
-                    Our {product.name} is designed with athletes in mind. Built with premium materials 
-                    and tested for durability, this product will help you perform at your best. 
+                    Our {product.name} is designed with athletes in mind. Built with premium materials
+                    and tested for durability, this product will help you perform at your best.
                     Whether you are training or competing, trust our gear to keep up with you.
                   </p>
                 </div>
@@ -227,17 +232,34 @@ function ProductContent({ productId }: { productId: string }) {
               <TabsContent value="shipping" className="mt-6">
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    <strong className="text-foreground">Shipping:</strong> Free standard shipping on orders over $50. 
+                    <strong className="text-foreground">Shipping:</strong> Free standard shipping on orders over $50.
                     Express shipping available at checkout. Delivery within 3-7 business days.
                   </p>
                   <p>
-                    <strong className="text-foreground">Returns:</strong> We offer a 30-day hassle-free return policy. 
+                    <strong className="text-foreground">Returns:</strong> We offer a 30-day hassle-free return policy.
                     Items must be unused and in original packaging. Contact our support team to initiate a return.
                   </p>
                 </div>
               </TabsContent>
             </Tabs>
           </div>
+
+          {/* Related Products */}
+          {relatedProducts.length > 0 && (
+            <div className="mt-16">
+              <h2
+                className="text-2xl font-bold text-foreground mb-6"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Related Products
+              </h2>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {relatedProducts.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </main>
       <Footer />

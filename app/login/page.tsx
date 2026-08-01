@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Dumbbell, Mail, LockKeyhole, Chrome, Send } from "lucide-react"
 
 import { Footer } from "@/components/footer"
@@ -8,26 +11,32 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CartProvider } from "@/lib/cart-context"
 
-export default function LoginPage() {
-  return (
-    <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
-        <Header />
-        <main className="flex flex-1 items-center justify-center px-4 py-12 sm:py-16">
-          <section className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1525]/95 p-6 shadow-2xl shadow-black/40 sm:p-8">
-            <div className="mb-8 flex flex-col items-center text-center">
-              <Link
-                href="/"
-                className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500 text-white shadow-lg shadow-orange-500/25"
-                aria-label="SportGear Pro home"
-              >
-                <Dumbbell className="h-8 w-8" />
-              </Link>
-              <h1 className="font-heading text-2xl font-bold text-white">Welcome back</h1>
-              <p className="mt-2 text-sm text-white/55">Login to continue shopping your sport gear.</p>
-            </div>
+function LoginContent() {
+  const router = useRouter()
 
-            <form className="space-y-5">
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    router.push("/dashboard")
+  }
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <Header />
+      <main className="flex flex-1 items-center justify-center px-4 py-12 sm:py-16">
+        <section className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1525]/95 p-6 shadow-2xl shadow-black/40 sm:p-8">
+          <div className="mb-8 flex flex-col items-center text-center">
+            <Link
+              href="/"
+              className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500 text-white shadow-lg shadow-orange-500/25"
+              aria-label="SportGear Pro home"
+            >
+              <Dumbbell className="h-8 w-8" />
+            </Link>
+            <h1 className="font-heading text-2xl font-bold text-white">Welcome back</h1>
+            <p className="mt-2 text-sm text-white/55">Login to continue shopping your sport gear.</p>
+          </div>
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <Label htmlFor="email-or-phone" className="text-white/80">
                   Email or phone
@@ -111,6 +120,13 @@ export default function LoginPage() {
         </main>
         <Footer />
       </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <CartProvider>
+      <LoginContent />
     </CartProvider>
   )
 }

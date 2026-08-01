@@ -500,6 +500,20 @@ export function Header() {
               )}
             </Link>
 
+            {/* Dashboard / Account — desktop */}
+            <Link
+              href="/dashboard"
+              id="header-account"
+              aria-label="My Account"
+              className={`hidden lg:flex items-center justify-center w-9 h-9 rounded-lg transition-all ${
+                isActive("/dashboard")
+                  ? "text-orange-400 bg-orange-500/12 border border-orange-500/25"
+                  : "text-white/60 hover:text-white hover:bg-white/8"
+              }`}
+            >
+              <User className="h-5 w-5" />
+            </Link>
+
             {/* Login / Register — desktop */}
             <div className="hidden lg:flex items-center gap-2 ml-1 pl-3 border-l border-white/10">
               <Link href="/login" id="header-login"
@@ -692,10 +706,10 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="/account"
+              href="/dashboard"
               onClick={() => setMobileOpen(false)}
               className={`flex flex-col items-center gap-1 transition-colors ${
-                isActive("/account") ? "text-orange-400" : "text-white/40 hover:text-orange-400"
+                isActive("/dashboard") ? "text-orange-400" : "text-white/40 hover:text-orange-400"
               }`}
             >
               <User className="h-5 w-5" />
