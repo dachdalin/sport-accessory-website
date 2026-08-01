@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { notFound } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -11,12 +12,13 @@ import { getProductById, getProductsByCategory, products } from "@/lib/products"
 import { ProductCard } from "@/components/product-card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Star, Minus, Plus, ShoppingCart, ChevronLeft, Truck, Shield, RotateCcw } from "lucide-react"
+import { Star, Minus, Plus, ShoppingCart, ChevronLeft, Truck, Shield, RotateCcw, Zap } from "lucide-react"
 
 function ProductContent({ productId }: { productId: string }) {
   const product = getProductById(productId)
   const { addItem } = useCart()
-  
+  const router = useRouter()
+
   const [quantity, setQuantity] = useState(1)
   const [selectedSize, setSelectedSize] = useState<string | undefined>(product?.sizes?.[0])
   const [selectedColor, setSelectedColor] = useState<string | undefined>(product?.colors?.[0])
@@ -31,6 +33,13 @@ function ProductContent({ productId }: { productId: string }) {
 
   const handleAddToCart = () => {
     addItem(product, quantity, selectedSize, selectedColor)
+  }
+
+  const handleBuyNow = () => {
+    const params = new URLSearchParams({ qty: String(quantity) })
+    if (selectedSize)  params.set("size",  selectedSize)
+    if (selectedColor) params.set("color", selectedColor)
+    router.push(`/buy-now/${product.id}?${params.toString()}`)
   }
 
   return (
@@ -160,16 +169,28 @@ function ProductContent({ productId }: { productId: string }) {
                 </div>
               </div>
 
-              {/* Add to Cart */}
-              <Button
-                size="lg"
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-              >
-                <ShoppingCart className="h-5 w-5 mr-2" />
-                Add to Cart
-              </Button>
+              {/* Actions */}
+              <div className="flex flex-col gap-3">
+                <Button
+                  size="lg"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold"
+                  onClick={handleBuyNow}
+                  disabled={product.stock === 0}
+                >
+                  <Zap className="h-5 w-5 mr-2" />
+                  Buy Now
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleAddToCart}
+                  disabled={product.stock === 0}
+                >
+                  <ShoppingCart className="h-5 w-5 mr-2" />
+                  Add to Cart
+                </Button>
+              </div>
 
               {/* Benefits */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border">
