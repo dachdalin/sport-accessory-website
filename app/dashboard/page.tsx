@@ -38,6 +38,8 @@ import {
   ChevronRight,
   Home,
   Shield,
+  Eye,
+  EyeOff,
 } from "lucide-react"
 
 // ─── Types & constants ────────────────────────────────────────────────────────
@@ -105,6 +107,14 @@ function DashboardContent() {
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState({ name: user.name, email: user.email, phone: user.phone })
 
+  // Password state
+  const [isChangingPassword, setIsChangingPassword] = useState(false)
+  const [passwordForm, setPasswordForm] = useState({ newPassword: "", confirmPassword: "" })
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [passwordError, setPasswordError] = useState("")
+  const [passwordSuccess, setPasswordSuccess] = useState(false)
+
   // Address state
   const [addresses, setAddresses] = useState<Address[]>([
     { id: "1", label: "Home", line1: "123 Main St", city: "New York", state: "NY", zip: "10001", country: "US" },
@@ -125,6 +135,22 @@ function DashboardContent() {
       .toUpperCase()
     setUser((prev) => ({ ...prev, ...editForm, initials }))
     setIsEditing(false)
+  }
+
+  function savePassword() {
+    setPasswordError("")
+    if (passwordForm.newPassword.length < 8) {
+      setPasswordError("Password must be at least 8 characters.")
+      return
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordError("Passwords do not match.")
+      return
+    }
+    setPasswordSuccess(true)
+    setPasswordForm({ newPassword: "", confirmPassword: "" })
+    setIsChangingPassword(false)
+    setTimeout(() => setPasswordSuccess(false), 3000)
   }
 
   function submitNewAddress() {
@@ -236,19 +262,155 @@ function DashboardContent() {
 
         {/* Security card */}
         <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-6">
-          <div className="flex items-center gap-2.5 mb-4">
-            <Shield className="h-4.5 w-4.5 text-orange-400" />
-            <h2 className="text-base font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
-              Security
-            </h2>
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <Shield className="h-4 w-4 text-orange-400" />
+              <h2 className="text-base font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+                Security
+              </h2>
+            </div>
+            {!isChangingPassword && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setPasswordForm({ newPassword: "", confirmPassword: "" })
+                  setPasswordError("")
+                  setIsChangingPassword(true)
+                }}
+                className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10 gap-1.5 h-8"
+              >
+                <Pencil className="h-3.5 w-3.5" />
+                Change Password
+              </Button>
+            )}
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-white/10 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
-          >
-            Change Password
-          </Button>
+
+          {/* Success banner */}
+          {passwordSuccess && (
+            <div className="flex items-center gap-2 rounded-xl bg-green-500/12 border border-green-500/20 px-4 py-3 text-sm text-green-400 mb-4">
+              <Check className="h-4 w-4 flex-shrink-0" />
+              Password updated successfully.
+            </div>
+          )}
+
+          {isChangingPassword ? (
+            <div className="space-y-4">
+              {/* New Password */}
+              <div className="space-y-1.5">
+                <Label htmlFor="new-password" className="text-white/70 text-sm">
+                  New Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="new-password"
+                    type={showNewPassword ? "text" : "password"}
+                    placeholder="Min. 8 characters"
+                    value={passwordForm.newPassword}
+                    onChange={(e) => {
+                      setPasswordError("")
+                      setPasswordForm((p) => ({ ...p, newPassword: e.target.value }))
+                    }}
+                    className="h-11 border-white/10 bg-white/5 pr-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
+                    aria-label={showNewPassword ? "Hide password" : "Show password"}
+                  >
+                    {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-1.5">
+                <Label htmlFor="confirm-password" className="text-white/70 text-sm">
+                  Confirm Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Re-enter new password"
+                    value={passwordForm.confirmPassword}
+                    onChange={(e) => {
+                      setPasswordError("")
+                      setPasswordForm((p) => ({ ...p, confirmPassword: e.target.value }))
+                    }}
+                    className="h-11 border-white/10 bg-white/5 pr-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Strength hint */}
+              {passwordForm.newPassword.length > 0 && (
+                <div className="flex gap-1.5">
+                  {[1, 2, 3, 4].map((level) => {
+                    const len = passwordForm.newPassword.length
+                    const hasUpper = /[A-Z]/.test(passwordForm.newPassword)
+                    const hasNum = /\d/.test(passwordForm.newPassword)
+                    const hasSymbol = /[^A-Za-z0-9]/.test(passwordForm.newPassword)
+                    const strength = (len >= 8 ? 1 : 0) + (hasUpper ? 1 : 0) + (hasNum ? 1 : 0) + (hasSymbol ? 1 : 0)
+                    const colors = ["bg-red-500", "bg-amber-500", "bg-yellow-400", "bg-green-500"]
+                    return (
+                      <div
+                        key={level}
+                        className={`h-1 flex-1 rounded-full transition-colors ${
+                          level <= strength ? colors[strength - 1] : "bg-white/10"
+                        }`}
+                      />
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* Error */}
+              {passwordError && (
+                <p className="flex items-center gap-1.5 text-sm text-red-400">
+                  <X className="h-3.5 w-3.5 flex-shrink-0" />
+                  {passwordError}
+                </p>
+              )}
+
+              {/* Actions */}
+              <div className="flex gap-2 pt-1">
+                <Button
+                  size="sm"
+                  onClick={savePassword}
+                  className="bg-orange-500 hover:bg-orange-600 text-white gap-1.5 h-9"
+                >
+                  <Check className="h-3.5 w-3.5" />
+                  Update Password
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setIsChangingPassword(false)
+                    setPasswordError("")
+                    setPasswordForm({ newPassword: "", confirmPassword: "" })
+                  }}
+                  className="text-white/55 hover:text-white hover:bg-white/5 h-9"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-white/40">
+              {passwordSuccess ? "" : "Keep your account secure with a strong password."}
+            </p>
+          )}
         </div>
       </div>
     )
