@@ -2,6 +2,7 @@ import React from "react"
 import type { Metadata, Viewport } from 'next'
 import { Montserrat, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/components/theme-provider'
 import { LanguageProvider } from '@/lib/language-context'
 import { WishlistProvider } from '@/lib/wishlist-context'
 import './globals.css'
@@ -22,7 +23,10 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#f97316',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#050A14' },
+  ],
   width: 'device-width',
   initialScale: 1,
 }
@@ -33,14 +37,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} ${inter.variable} font-sans antialiased`}>
-        <LanguageProvider>
-          <WishlistProvider>
-            {children}
-          </WishlistProvider>
-        </LanguageProvider>
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <LanguageProvider>
+            <WishlistProvider>
+              {children}
+            </WishlistProvider>
+          </LanguageProvider>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

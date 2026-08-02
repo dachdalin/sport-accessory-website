@@ -16,28 +16,28 @@ export function DashboardSidebar({ user, activeTab, onTabChange }: Props) {
   return (
     <aside className="hidden lg:flex lg:flex-col gap-3 w-60 flex-shrink-0 sticky top-8">
       {/* User card */}
-      <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-4">
+      <div className="rounded-2xl border border-border bg-card/80 p-4">
         <div className="flex items-center gap-3">
           <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white font-bold text-base shadow-lg shadow-orange-500/20 flex-shrink-0 select-none">
             {user.initials}
           </div>
           <div className="min-w-0">
-            <p className="font-semibold text-white text-sm truncate">{user.name}</p>
-            <p className="text-xs text-white/45 truncate">{user.email}</p>
+            <p className="font-semibold text-foreground text-sm truncate">{user.name}</p>
+            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
           </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-2">
+      <nav className="rounded-2xl border border-border bg-card/80 p-2">
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => onTabChange(key)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === key
-                ? "bg-orange-500/15 text-orange-400"
-                : "text-white/50 hover:text-white hover:bg-white/5"
+                ? "bg-orange-500/15 text-orange-600 dark:text-orange-400"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
             }`}
           >
             <Icon className="h-4 w-4 flex-shrink-0" />
@@ -48,7 +48,7 @@ export function DashboardSidebar({ user, activeTab, onTabChange }: Props) {
       </nav>
 
       {/* Account actions */}
-      <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-2">
+      <div className="rounded-2xl border border-border bg-card/80 p-2">
         <LogoutDialog />
         <DeleteAccountDialog />
       </div>

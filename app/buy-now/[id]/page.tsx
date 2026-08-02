@@ -19,7 +19,7 @@ function BuyNowContent({ product, quantity, size, color }: {
 }) {
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
         <div className="flex-1">
           <BuyNowClient

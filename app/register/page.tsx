@@ -11,10 +11,10 @@ import { CartProvider } from "@/lib/cart-context"
 export default function RegisterPage() {
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
         <main className="flex flex-1 items-center justify-center px-4 py-12 sm:py-16">
-          <section className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1525]/95 p-6 shadow-2xl shadow-black/40 sm:p-8">
+          <section className="w-full max-w-md rounded-2xl border border-border bg-card/95 p-6 shadow-2xl shadow-black/40 sm:p-8">
             <div className="mb-8 flex flex-col items-center text-center">
               <Link
                 href="/"
@@ -23,17 +23,17 @@ export default function RegisterPage() {
               >
                 <Dumbbell className="h-8 w-8" />
               </Link>
-              <h1 className="font-heading text-2xl font-bold text-white">Create account</h1>
-              <p className="mt-2 text-sm text-white/55">Register to save favorites and checkout faster.</p>
+              <h1 className="font-heading text-2xl font-bold text-foreground">Create account</h1>
+              <p className="mt-2 text-sm text-muted-foreground">Register to save favorites and checkout faster.</p>
             </div>
 
             <form className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-white/80">
+                <Label htmlFor="name" className="text-muted-foreground">
                   Name
                 </Label>
                 <div className="relative">
-                  <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
+                  <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="name"
                     name="name"
@@ -41,18 +41,18 @@ export default function RegisterPage() {
                     autoComplete="name"
                     placeholder="Full name"
                     required
-                    className="h-12 border-white/10 bg-white/5 pl-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                    className="h-12 border-border bg-muted/50 pl-10 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
                   />
                 </div>
               </div>
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white/80">
+                  <Label htmlFor="email" className="text-muted-foreground">
                     Email
                   </Label>
                   <div className="relative">
-                    <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
+                    <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       id="email"
                       name="email"
@@ -60,17 +60,17 @@ export default function RegisterPage() {
                       autoComplete="email"
                       placeholder="Email"
                       required
-                      className="h-12 border-white/10 bg-white/5 pl-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                      className="h-12 border-border bg-muted/50 pl-10 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-white/80">
+                  <Label htmlFor="phone" className="text-muted-foreground">
                     Phone
                   </Label>
                   <div className="relative">
-                    <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
+                    <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       id="phone"
                       name="phone"
@@ -79,18 +79,18 @@ export default function RegisterPage() {
                       autoComplete="tel"
                       placeholder="Phone"
                       required
-                      className="h-12 border-white/10 bg-white/5 pl-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                      className="h-12 border-border bg-muted/50 pl-10 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
                     />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white/80">
+                <Label htmlFor="password" className="text-muted-foreground">
                   Password
                 </Label>
                 <div className="relative">
-                  <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
+                  <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="password"
                     name="password"
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                     autoComplete="new-password"
                     placeholder="Create password"
                     required
-                    className="h-12 border-white/10 bg-white/5 pl-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                    className="h-12 border-border bg-muted/50 pl-10 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
                   />
                 </div>
               </div>
@@ -112,16 +112,16 @@ export default function RegisterPage() {
             </form>
 
             <div className="my-6 flex items-center gap-3">
-              <span className="h-px flex-1 bg-white/10" />
-              <span className="text-xs font-medium uppercase tracking-wider text-white/35">Other register</span>
-              <span className="h-px flex-1 bg-white/10" />
+              <span className="h-px flex-1 bg-muted" />
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Other register</span>
+              <span className="h-px flex-1 bg-muted" />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <Button
                 type="button"
                 variant="outline"
-                className="h-11 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+                className="h-11 rounded-xl border-border bg-muted/50 text-foreground hover:bg-muted hover:text-foreground"
               >
                 <Chrome className="h-4 w-4" />
                 Google
@@ -129,16 +129,16 @@ export default function RegisterPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="h-11 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+                className="h-11 rounded-xl border-border bg-muted/50 text-foreground hover:bg-muted hover:text-foreground"
               >
                 <Send className="h-4 w-4" />
                 Telegram
               </Button>
             </div>
 
-            <p className="mt-6 text-center text-sm text-white/45">
+            <p className="mt-6 text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-orange-400 hover:text-orange-300">
+              <Link href="/login" className="font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300">
                 Login
               </Link>
             </p>

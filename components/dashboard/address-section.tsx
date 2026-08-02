@@ -26,19 +26,19 @@ function AddressForm({
 }) {
   const field = (key: keyof Omit<Address, "id">, label: string, placeholder: string, span?: boolean) => (
     <div className={`space-y-1 ${span ? "col-span-2" : ""}`}>
-      <Label className="text-white/65 text-xs">{label}</Label>
+      <Label className="text-muted-foreground text-xs">{label}</Label>
       <Input
         placeholder={placeholder}
         value={value[key]}
         onChange={(e) => onChange({ ...value, [key]: e.target.value })}
-        className="h-10 border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25 text-sm"
+        className="h-10 border-border bg-muted/50 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25 text-sm"
       />
     </div>
   )
 
   return (
     <div className="mb-5 rounded-xl border border-orange-500/20 bg-orange-500/5 p-4 space-y-3">
-      <p className="text-sm font-semibold text-orange-400">New Address</p>
+      <p className="text-sm font-semibold text-orange-600 dark:text-orange-400">New Address</p>
       <div className="grid grid-cols-2 gap-3">
         {field("label",   "Label (e.g. Home, Office)", "Home",        true)}
         {field("line1",   "Street Address",             "123 Main St", true)}
@@ -51,7 +51,7 @@ function AddressForm({
         <Button size="sm" onClick={onSave} className="bg-orange-500 hover:bg-orange-600 text-white h-8">
           Save Address
         </Button>
-        <Button size="sm" variant="ghost" onClick={onCancel} className="text-white/55 hover:text-white hover:bg-white/5 h-8">
+        <Button size="sm" variant="ghost" onClick={onCancel} className="text-muted-foreground hover:text-foreground hover:bg-muted h-8">
           Cancel
         </Button>
       </div>
@@ -61,24 +61,24 @@ function AddressForm({
 
 function AddressRow({ address, onDelete }: { address: Address; onDelete: () => void }) {
   return (
-    <div className="flex items-start justify-between gap-3 rounded-xl border border-white/8 bg-white/3 p-4 hover:border-orange-500/20 transition-colors">
+    <div className="flex items-start justify-between gap-3 rounded-xl border border-border bg-muted/30 p-4 hover:border-orange-500/20 transition-colors">
       <div className="flex gap-3">
         <div className="h-9 w-9 rounded-lg bg-orange-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <Home className="h-4 w-4 text-orange-400" />
+          <Home className="h-4 w-4 text-orange-600 dark:text-orange-400" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-white">{address.label || "Address"}</p>
-          <p className="text-xs text-white/45 mt-0.5">{address.line1}</p>
-          <p className="text-xs text-white/45">
+          <p className="text-sm font-semibold text-foreground">{address.label || "Address"}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">{address.line1}</p>
+          <p className="text-xs text-muted-foreground">
             {address.city}{address.state ? `, ${address.state}` : ""} {address.zip}
           </p>
-          <p className="text-xs text-white/45">{address.country}</p>
+          <p className="text-xs text-muted-foreground">{address.country}</p>
         </div>
       </div>
       <button
         onClick={onDelete}
         aria-label="Remove address"
-        className="p-1.5 rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors flex-shrink-0"
+        className="p-1.5 rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors flex-shrink-0"
       >
         <Trash2 className="h-4 w-4" />
       </button>
@@ -103,10 +103,10 @@ export function AddressSection() {
   }
 
   return (
-    <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-6">
+    <div className="rounded-2xl border border-border bg-card/80 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
           Saved Addresses
         </h2>
         <Button
@@ -130,8 +130,8 @@ export function AddressSection() {
 
       {addresses.length === 0 && !showForm ? (
         <div className="flex flex-col items-center py-12 text-center">
-          <MapPin className="h-12 w-12 text-white/20 mb-3" />
-          <p className="text-sm text-white/45">No saved addresses.</p>
+          <MapPin className="h-12 w-12 text-muted-foreground/40 mb-3" />
+          <p className="text-sm text-muted-foreground">No saved addresses.</p>
         </div>
       ) : (
         <div className="space-y-3">

@@ -19,20 +19,20 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { href: "#", icon: Facebook, label: "Facebook", color: "hover:text-blue-400" },
-  { href: "#", icon: Instagram, label: "Instagram", color: "hover:text-pink-400" },
-  { href: "#", icon: Youtube, label: "YouTube", color: "hover:text-red-400" },
+  { href: "#", icon: Facebook, label: "Facebook", color: "hover:text-blue-500 dark:hover:text-blue-400" },
+  { href: "#", icon: Instagram, label: "Instagram", color: "hover:text-pink-500 dark:hover:text-pink-400" },
+  { href: "#", icon: Youtube, label: "YouTube", color: "hover:text-red-500 dark:hover:text-red-400" },
 ]
 
 export function Footer() {
   return (
-    <footer className="bg-[#030710] border-t border-white/8">
+    <footer className="bg-background border-t border-border">
       {/* Payment strip */}
-      <div className="border-b border-white/8 py-4">
+      <div className="border-b border-border py-4">
         <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
-          <span className="text-white/40 text-xs">Accepted Payments:</span>
+          <span className="text-muted-foreground text-xs">Accepted Payments:</span>
           {["ABA Bank", "ACLEDA", "Wing", "Pi Pay", "Visa", "Mastercard"].map(p => (
-            <span key={p} className="text-xs text-white/60 font-semibold border border-white/15 px-3 py-1 rounded-lg bg-white/4">
+            <span key={p} className="text-xs text-muted-foreground font-semibold border border-border px-3 py-1 rounded-lg bg-muted/50">
               {p}
             </span>
           ))}
@@ -47,14 +47,14 @@ export function Footer() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-700">
                 <Dumbbell className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tight text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-                Sport<span className="text-orange-400">Gear</span>
+              <span className="text-xl font-black tracking-tight text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>
+                Sport<span className="text-orange-600 dark:text-orange-400">Gear</span>
               </span>
             </Link>
-            <p className="text-sm text-white/40 max-w-xs leading-relaxed">
+            <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
               Cambodia&apos;s trusted sport accessories store. Premium gear delivered fast to every province.
             </p>
-            <p className="text-xs text-white/30">
+            <p className="text-xs text-muted-foreground/80">
               📍 Phnom Penh, Cambodia<br />
               💬 Telegram: @sportgearcambodia<br />
               📞 +855 12 345 678
@@ -64,7 +64,7 @@ export function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
-                  className={`text-white/40 ${social.color} transition-colors p-2 bg-white/5 rounded-lg hover:bg-white/10`}
+                  className={`text-muted-foreground ${social.color} transition-colors p-2 bg-muted rounded-lg hover:bg-muted/70`}
                   aria-label={social.label}
                 >
                   <social.icon className="h-4 w-4" />
@@ -73,7 +73,7 @@ export function Footer() {
               {/* Telegram */}
               <a
                 href="https://t.me/sportgearcambodia"
-                className="text-white/40 hover:text-[#0088cc] transition-colors p-2 bg-white/5 rounded-lg hover:bg-white/10"
+                className="text-muted-foreground hover:text-[#0088cc] transition-colors p-2 bg-muted rounded-lg hover:bg-muted/70"
                 aria-label="Telegram"
                 id="footer-telegram"
               >
@@ -86,11 +86,11 @@ export function Footer() {
 
           {/* Shop Links */}
           <div>
-            <h3 className="font-bold text-white text-sm mb-4 uppercase tracking-wider" style={{ fontFamily: 'var(--font-heading)' }}>Shop</h3>
+            <h3 className="font-bold text-foreground text-sm mb-4 uppercase tracking-wider" style={{ fontFamily: 'var(--font-heading)' }}>Shop</h3>
             <ul className="space-y-2.5">
               {footerLinks.shop.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/40 hover:text-orange-400 transition-colors">
+                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -100,11 +100,11 @@ export function Footer() {
 
           {/* Support Links */}
           <div>
-            <h3 className="font-bold text-white text-sm mb-4 uppercase tracking-wider" style={{ fontFamily: 'var(--font-heading)' }}>Support</h3>
+            <h3 className="font-bold text-foreground text-sm mb-4 uppercase tracking-wider" style={{ fontFamily: 'var(--font-heading)' }}>Support</h3>
             <ul className="space-y-2.5">
               {footerLinks.support.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/40 hover:text-orange-400 transition-colors">
+                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -113,13 +113,13 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-center text-sm text-white/30">
+        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-center text-sm text-muted-foreground/80">
             © {new Date().getFullYear()} SportGear Pro. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="text-xs text-white/30 hover:text-white/60 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-xs text-white/30 hover:text-white/60 transition-colors">Terms & Conditions</Link>
+            <Link href="/privacy" className="text-xs text-muted-foreground/80 hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-xs text-muted-foreground/80 hover:text-foreground transition-colors">Terms & Conditions</Link>
           </div>
         </div>
       </div>

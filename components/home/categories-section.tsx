@@ -13,13 +13,13 @@ const categories = [
 
 export function CategoriesSection() {
   return (
-    <section className="py-16 md:py-24 bg-[#080D18]">
+    <section className="py-16 md:py-24 bg-card">
       <div className="container mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-orange-400 text-sm font-bold uppercase tracking-widest mb-2">Browse</p>
+            <p className="text-orange-600 dark:text-orange-400 text-sm font-bold uppercase tracking-widest mb-2">Browse</p>
             <h2
-              className="text-3xl md:text-4xl font-black text-white leading-tight"
+              className="text-3xl md:text-4xl font-black text-foreground leading-tight"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               Shop by Category
@@ -27,7 +27,7 @@ export function CategoriesSection() {
           </div>
           <Link
             href="/shop"
-            className="hidden md:flex items-center gap-1.5 text-sm text-white/50 hover:text-orange-400 transition-colors group"
+            className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground/50 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group"
             id="categories-view-all"
           >
             View all

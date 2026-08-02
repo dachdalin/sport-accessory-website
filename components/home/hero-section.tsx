@@ -55,7 +55,7 @@ export function HeroSection() {
   const pad = (n: number) => String(n).padStart(2, "0")
 
   return (
-    <section className="relative min-h-[100svh] flex items-center overflow-hidden bg-[#050A14]">
+    <section className="relative min-h-[100svh] flex items-center overflow-hidden bg-background">
       {/* Background */}
       <div className="absolute inset-0">
         <Image
@@ -67,8 +67,8 @@ export function HeroSection() {
           sizes="100vw"
         />
         {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050A14] via-[#050A14]/75 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/75 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         {/* Neon glow accents */}
         <div className="absolute top-1/3 left-1/2 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-blue-600/10 rounded-full blur-3xl" />
@@ -87,26 +87,26 @@ export function HeroSection() {
       <div className="container mx-auto px-4 relative z-10 py-20">
         <div className="max-w-3xl">
           {/* Flash sale badge */}
-          <div className="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/40 text-orange-400 text-xs font-bold px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm animate-pulse">
-            <Zap className="h-3 w-3 fill-orange-400" />
+          <div className="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/40 text-orange-600 dark:text-orange-400 text-xs font-bold px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm animate-pulse">
+            <Zap className="h-3 w-3 fill-orange-600 dark:fill-orange-400" />
             {c.badge}
           </div>
 
           {/* Countdown */}
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-white/50 text-sm font-medium">{c.endsIn}</span>
+            <span className="text-muted-foreground/50 text-sm font-medium">{c.endsIn}</span>
             {[pad(timeLeft.hours), pad(timeLeft.minutes), pad(timeLeft.seconds)].map((val, i) => (
               <span key={i} className="flex items-center gap-1">
-                <span className="bg-white/10 backdrop-blur border border-white/20 text-white font-mono font-bold text-lg px-2.5 py-1 rounded-md min-w-[2.5rem] text-center">
+                <span className="bg-muted backdrop-blur border border-border text-foreground font-mono font-bold text-lg px-2.5 py-1 rounded-md min-w-[2.5rem] text-center">
                   {val}
                 </span>
-                {i < 2 && <span className="text-orange-400 font-bold">:</span>}
+                {i < 2 && <span className="text-orange-600 dark:text-orange-400 font-bold">:</span>}
               </span>
             ))}
           </div>
 
           <h1
-            className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none tracking-tight"
+            className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-none tracking-tight"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             {c.heading1}{" "}
@@ -117,7 +117,7 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p className="mt-5 text-base md:text-lg text-white/60 max-w-xl leading-relaxed">
+          <p className="mt-5 text-base md:text-lg text-muted-foreground/60 max-w-xl leading-relaxed">
             {c.sub}
           </p>
 
@@ -129,7 +129,7 @@ export function HeroSection() {
                 <Zap className="ml-2 h-4 w-4 fill-white" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" id="hero-categories" className="border-white/20 text-white hover:bg-white/10 bg-white/5 backdrop-blur rounded-xl text-base h-13 px-8 transition-all hover:border-white/40">
+            <Button asChild variant="outline" size="lg" id="hero-categories" className="border-border/50 text-foreground hover:bg-muted bg-muted/50 backdrop-blur rounded-xl text-base h-13 px-8 transition-all hover:border-border">
               <Link href="/shop">
                 {c.cta2}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -141,29 +141,29 @@ export function HeroSection() {
           <div className="mt-12 flex items-center gap-6 md:gap-10">
             {c.stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-2xl font-black text-white">{stat.value}</div>
-                <div className="text-xs text-white/40 mt-0.5">{stat.label}</div>
+                <div className="text-2xl font-black text-foreground">{stat.value}</div>
+                <div className="text-xs text-muted-foreground/40 mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>
 
           {/* Payment methods */}
           <div className="mt-8 flex items-center gap-3 flex-wrap">
-            <span className="text-white/30 text-xs">{c.accepted}</span>
+            <span className="text-muted-foreground/30 text-xs">{c.accepted}</span>
             {["ABA Bank", "ACLEDA", "Wing", "QR Pay"].map(p => (
-              <span key={p} className="text-xs bg-white/8 border border-white/15 text-white/60 px-2.5 py-1 rounded-lg backdrop-blur-sm font-medium">{p}</span>
+              <span key={p} className="text-xs bg-muted border border-border text-muted-foreground/60 px-2.5 py-1 rounded-lg backdrop-blur-sm font-medium">{p}</span>
             ))}
           </div>
         </div>
       </div>
 
       {/* Bottom social proof ticker */}
-      <div className="absolute bottom-0 left-0 right-0 bg-white/5 backdrop-blur border-t border-white/10 py-2 overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 bg-muted/50 backdrop-blur border-t border-border py-2 overflow-hidden">
         <div className="flex items-center gap-8 animate-[ticker_20s_linear_infinite]" style={{ width: "max-content" }}>
           {Array.from({ length: 4 }).flatMap(() => c.ticker).map((item, i) => (
-            <span key={i} className="text-white/50 text-sm whitespace-nowrap flex items-center gap-1">
+            <span key={i} className="text-muted-foreground/50 text-sm whitespace-nowrap flex items-center gap-1">
               {item}
-              <span className="mx-4 text-white/20">·</span>
+              <span className="mx-4 text-muted-foreground/20">·</span>
             </span>
           ))}
         </div>

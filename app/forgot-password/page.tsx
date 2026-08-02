@@ -32,10 +32,10 @@ export default function ForgotPasswordPage() {
 
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
         <main className="flex flex-1 items-center justify-center px-4 py-12 sm:py-16">
-          <section className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1525]/95 p-6 shadow-2xl shadow-black/40 sm:p-8">
+          <section className="w-full max-w-md rounded-2xl border border-border bg-card/95 p-6 shadow-2xl shadow-black/40 sm:p-8">
             <div className="mb-8 flex flex-col items-center text-center">
               <Link
                 href="/"
@@ -44,10 +44,10 @@ export default function ForgotPasswordPage() {
               >
                 <Dumbbell className="h-8 w-8" />
               </Link>
-              <h1 className="font-heading text-2xl font-bold text-white">
+              <h1 className="font-heading text-2xl font-bold text-foreground">
                 {step === "contact" ? "Recover account" : "Verify code"}
               </h1>
-              <p className="mt-2 text-sm text-white/55">
+              <p className="mt-2 text-sm text-muted-foreground">
                 {step === "contact"
                   ? "Enter your email or phone number to receive a verification code."
                   : `Enter the 6-digit code sent to ${contact || "your account"}.`}
@@ -57,11 +57,11 @@ export default function ForgotPasswordPage() {
             {step === "contact" ? (
               <form className="space-y-5" onSubmit={handleContactSubmit}>
                 <div className="space-y-2">
-                  <Label htmlFor="recovery-contact" className="text-white/80">
+                  <Label htmlFor="recovery-contact" className="text-muted-foreground">
                     Email or phone
                   </Label>
                   <div className="relative">
-                    <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
+                    <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       id="recovery-contact"
                       name="contact"
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
                       onChange={(event) => setContact(event.target.value)}
                       placeholder="Email or phone number"
                       required
-                      className="h-12 border-white/10 bg-white/5 pl-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                      className="h-12 border-border bg-muted/50 pl-10 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
                     />
                   </div>
                 </div>
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
                   asChild
                   type="button"
                   variant="ghost"
-                  className="h-11 w-full text-white/60 hover:bg-white/8 hover:text-white"
+                  className="h-11 w-full text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <Link href="/login">
                     <ArrowLeft className="h-4 w-4" />
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
             ) : (
               <form className="space-y-6" onSubmit={handleVerifySubmit}>
                 <div className="space-y-3">
-                  <Label htmlFor="verification-code" className="justify-center text-white/80">
+                  <Label htmlFor="verification-code" className="justify-center text-muted-foreground">
                     Verification code
                   </Label>
                   <div className="flex justify-center">
@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
                           <InputOTPSlot
                             key={index}
                             index={index}
-                            className="h-12 w-11 rounded-xl border border-white/10 bg-white/5 text-lg font-semibold text-white data-[active=true]:border-orange-500 data-[active=true]:ring-orange-500/25"
+                            className="h-12 w-11 rounded-xl border border-border bg-muted/50 text-lg font-semibold text-foreground data-[active=true]:border-orange-500 data-[active=true]:ring-orange-500/25"
                           />
                         ))}
                       </InputOTPGroup>
@@ -137,7 +137,7 @@ export default function ForgotPasswordPage() {
                     type="button"
                     variant="outline"
                     onClick={() => setStep("contact")}
-                    className="h-11 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+                    className="h-11 rounded-xl border-border bg-muted/50 text-foreground hover:bg-muted hover:text-foreground"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     Back
@@ -145,7 +145,7 @@ export default function ForgotPasswordPage() {
                   <Button
                     type="button"
                     variant="ghost"
-                    className="h-11 text-orange-400 hover:bg-orange-500/10 hover:text-orange-300"
+                    className="h-11 text-orange-600 dark:text-orange-400 hover:bg-orange-500/10 hover:text-orange-700 dark:hover:text-orange-300"
                   >
                     Resend
                   </Button>

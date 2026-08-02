@@ -11,7 +11,7 @@ const deals = [
 
 export function PromoSection() {
   return (
-    <section className="py-12 md:py-16 bg-[#080D18] relative overflow-hidden">
+    <section className="py-12 md:py-16 bg-card relative overflow-hidden">
       {/* Orange glow */}
       <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl" />
 
@@ -23,28 +23,28 @@ export function PromoSection() {
 
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-5 w-5 text-orange-400 fill-orange-400" />
-                <span className="text-orange-400 text-sm font-black uppercase tracking-widest">Flash Sale</span>
+                <Zap className="h-5 w-5 text-orange-600 dark:text-orange-400 fill-orange-600 dark:fill-orange-400" />
+                <span className="text-orange-600 dark:text-orange-400 text-sm font-black uppercase tracking-widest">Flash Sale</span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-black text-white mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h3 className="text-2xl md:text-3xl font-black text-foreground mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
                 Up to 70% Off
               </h3>
-              <p className="text-white/50 text-sm mb-6">Today only. Shop before it ends!</p>
+              <p className="text-muted-foreground/50 text-sm mb-6">Today only. Shop before it ends!</p>
 
               <div className="space-y-3 mb-6">
                 {deals.map(deal => (
-                  <div key={deal.label} className="flex items-center justify-between bg-white/5 rounded-xl px-4 py-3">
+                  <div key={deal.label} className="flex items-center justify-between bg-muted/50 rounded-xl px-4 py-3">
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{deal.emoji}</span>
                       <div>
-                        <span className="text-xs font-bold text-orange-400 uppercase">{deal.tag}</span>
-                        <div className="text-sm text-white font-medium">{deal.label}</div>
+                        <span className="text-xs font-bold text-orange-600 dark:text-orange-400 uppercase">{deal.tag}</span>
+                        <div className="text-sm text-foreground font-medium">{deal.label}</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-white font-bold">{deal.price}</div>
-                      <div className="text-white/30 text-xs line-through">{deal.original}</div>
+                      <div className="text-foreground font-bold">{deal.price}</div>
+                      <div className="text-muted-foreground/30 text-xs line-through">{deal.original}</div>
                     </div>
                   </div>
                 ))}
@@ -67,14 +67,14 @@ export function PromoSection() {
 
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="h-5 w-5 text-blue-400" />
-                <span className="text-blue-400 text-sm font-black uppercase tracking-widest">Trending Now 🇰🇭</span>
+                <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <span className="text-blue-600 dark:text-blue-400 text-sm font-black uppercase tracking-widest">Trending Now 🇰🇭</span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-black text-white mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h3 className="text-2xl md:text-3xl font-black text-foreground mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
                 Popular in Cambodia
               </h3>
-              <p className="text-white/50 text-sm mb-6">Most searched this week by Cambodian athletes</p>
+              <p className="text-muted-foreground/50 text-sm mb-6">Most searched this week by Cambodian athletes</p>
 
               <div className="space-y-3 mb-6">
                 {[
@@ -83,11 +83,11 @@ export function PromoSection() {
                   { rank: 3, name: "Gym Resistance Bands", searches: "7.2K", change: "+34%" },
                   { rank: 4, name: "Basketball Jersey", searches: "5.9K", change: "+8%" },
                 ].map(item => (
-                  <div key={item.rank} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3">
-                    <span className="text-white/30 text-xs font-bold w-4">#{item.rank}</span>
-                    <span className="flex-1 text-sm text-white font-medium">{item.name}</span>
-                    <span className="text-xs text-green-400 font-bold">{item.change}</span>
-                    <span className="text-xs text-white/30">{item.searches}</span>
+                  <div key={item.rank} className="flex items-center gap-3 bg-muted/50 rounded-xl px-4 py-3">
+                    <span className="text-muted-foreground/30 text-xs font-bold w-4">#{item.rank}</span>
+                    <span className="flex-1 text-sm text-foreground font-medium">{item.name}</span>
+                    <span className="text-xs text-green-600 dark:text-green-400 font-bold">{item.change}</span>
+                    <span className="text-xs text-muted-foreground/30">{item.searches}</span>
                   </div>
                 ))}
               </div>

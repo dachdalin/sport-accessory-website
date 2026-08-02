@@ -32,7 +32,7 @@ const CATEGORIES: FAQCategory[] = [
   {
     icon: <ShoppingCart className="h-5 w-5" />,
     title: "Ordering",
-    color: "text-blue-400",
+    color: "text-blue-600 dark:text-blue-400",
     items: [
       {
         question: "How do I place an order?",
@@ -64,7 +64,7 @@ const CATEGORIES: FAQCategory[] = [
   {
     icon: <Banknote className="h-5 w-5" />,
     title: "Payments & COD",
-    color: "text-green-400",
+    color: "text-green-600 dark:text-green-400",
     items: [
       {
         question: "What payment methods do you accept?",
@@ -101,7 +101,7 @@ const CATEGORIES: FAQCategory[] = [
   {
     icon: <Truck className="h-5 w-5" />,
     title: "Shipping & Delivery",
-    color: "text-orange-400",
+    color: "text-orange-600 dark:text-orange-400",
     items: [
       {
         question: "How long does delivery take in Phnom Penh?",
@@ -138,7 +138,7 @@ const CATEGORIES: FAQCategory[] = [
   {
     icon: <RefreshCcw className="h-5 w-5" />,
     title: "Returns & Refunds",
-    color: "text-red-400",
+    color: "text-red-600 dark:text-red-400",
     items: [
       {
         question: "What is your return policy?",
@@ -175,7 +175,7 @@ const CATEGORIES: FAQCategory[] = [
   {
     icon: <Package className="h-5 w-5" />,
     title: "Products & Sizing",
-    color: "text-purple-400",
+    color: "text-purple-600 dark:text-purple-400",
     items: [
       {
         question: "How do I find the right size?",
@@ -207,7 +207,7 @@ const CATEGORIES: FAQCategory[] = [
   {
     icon: <User className="h-5 w-5" />,
     title: "Account & Support",
-    color: "text-amber-400",
+    color: "text-amber-600 dark:text-amber-400",
     items: [
       {
         question: "Do I need to create an account to order?",
@@ -242,26 +242,26 @@ const CATEGORIES: FAQCategory[] = [
 
 function FAQAccordion({ item }: { item: FAQItem }) {
   return (
-    <details className="group border-b border-white/6 last:border-0">
+    <details className="group border-b border-border/50 last:border-0">
       <summary className="flex cursor-pointer items-start justify-between gap-4 py-4 text-left list-none [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-semibold text-white group-open:text-orange-400 transition-colors leading-6 pr-2">
+        <span className="text-sm font-semibold text-foreground group-open:text-orange-600 dark:text-orange-400 transition-colors leading-6 pr-2">
           {item.question}
         </span>
-        <ChevronDown className="h-4 w-4 text-white/35 flex-shrink-0 mt-1 transition-transform duration-200 group-open:rotate-180 group-open:text-orange-400" />
+        <ChevronDown className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-1 transition-transform duration-200 group-open:rotate-180 group-open:text-orange-600 dark:text-orange-400" />
       </summary>
-      <p className="pb-5 text-sm leading-7 text-white/55 pr-8">{item.answer}</p>
+      <p className="pb-5 text-sm leading-7 text-muted-foreground pr-8">{item.answer}</p>
     </details>
   )
 }
 
 function CategoryCard({ category }: { category: FAQCategory }) {
   return (
-    <div className="rounded-2xl border border-white/8 bg-[#0D1525]/70 p-6 md:p-7">
+    <div className="rounded-2xl border border-border bg-card/70 p-6 md:p-7">
       <div className="flex items-center gap-3 mb-2">
-        <div className={`h-10 w-10 rounded-xl bg-white/6 flex items-center justify-center flex-shrink-0 ${category.color}`}>
+        <div className={`h-10 w-10 rounded-xl bg-muted/50 flex items-center justify-center flex-shrink-0 ${category.color}`}>
           {category.icon}
         </div>
-        <h2 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
           {category.title}
         </h2>
       </div>
@@ -279,13 +279,13 @@ function CategoryCard({ category }: { category: FAQCategory }) {
 export default function FAQPage() {
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
 
         <main className="flex-1">
 
           {/* ── Hero ──────────────────────────────────────────────────────────── */}
-          <section className="relative border-b border-white/10 bg-[#0D1525] px-4 py-16 text-center md:py-24 overflow-hidden">
+          <section className="relative border-b border-border bg-card px-4 py-16 text-center md:py-24 overflow-hidden">
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div className="h-64 w-64 rounded-full bg-orange-500/8 blur-3xl" />
             </div>
@@ -295,12 +295,12 @@ export default function FAQPage() {
                 <HelpCircle className="h-8 w-8 text-white" />
               </div>
               <h1
-                className="font-heading text-3xl font-bold text-white md:text-5xl"
+                className="font-heading text-3xl font-bold text-foreground md:text-5xl"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 Frequently Asked Questions
               </h1>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/55">
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
                 Find answers to the most common questions from our customers in Cambodia.
                 Can&apos;t find what you&apos;re looking for? Message us on Telegram — we reply fast.
               </p>
@@ -311,7 +311,7 @@ export default function FAQPage() {
                   <a
                     key={cat.title}
                     href={`#${cat.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-white/60 hover:border-orange-500/40 hover:text-orange-400 hover:bg-orange-500/8 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-muted/50 text-xs font-medium text-muted-foreground hover:border-orange-500/40 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-500/8 transition-colors"
                   >
                     <span className={cat.color}>{cat.icon}</span>
                     {cat.title}
@@ -337,30 +337,30 @@ export default function FAQPage() {
               {/* Still have questions */}
               <div className="rounded-2xl border border-orange-500/20 bg-orange-500/5 p-7 text-center">
                 <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/15">
-                  <HelpCircle className="h-6 w-6 text-orange-400" />
+                  <HelpCircle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h3 className="text-base font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+                <h3 className="text-base font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
                   Still have a question?
                 </h3>
-                <p className="mt-2 text-sm text-white/55">
+                <p className="mt-2 text-sm text-muted-foreground">
                   Our Cambodia-based support team is available Monday – Saturday, 8 AM – 6 PM.
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm">
-                  <span className="inline-flex items-center gap-1.5 font-medium text-orange-400">
+                  <span className="inline-flex items-center gap-1.5 font-medium text-orange-600 dark:text-orange-400">
                     Telegram: @SportGearPro_KH
                   </span>
-                  <span className="text-white/20">·</span>
-                  <span className="inline-flex items-center gap-1.5 font-medium text-orange-400">
+                  <span className="text-muted-foreground">·</span>
+                  <span className="inline-flex items-center gap-1.5 font-medium text-orange-600 dark:text-orange-400">
                     WhatsApp: +855 12 345 678
                   </span>
-                  <span className="text-white/20">·</span>
-                  <span className="inline-flex items-center gap-1.5 font-medium text-orange-400">
+                  <span className="text-muted-foreground">·</span>
+                  <span className="inline-flex items-center gap-1.5 font-medium text-orange-600 dark:text-orange-400">
                     support@sportgear.kh
                   </span>
                 </div>
               </div>
 
-              <p className="text-center text-xs text-white/25 pt-2">
+              <p className="text-center text-xs text-muted-foreground pt-2">
                 FAQ last updated: August 2026 · SportGear Pro — Cambodia 🇰🇭
               </p>
 

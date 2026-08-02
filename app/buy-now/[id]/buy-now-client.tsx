@@ -71,15 +71,15 @@ function StepIndicator({ current }: { current: Step }) {
               <div className={`h-9 w-9 rounded-full flex items-center justify-center text-sm font-bold transition-all
                 ${done   ? "bg-green-500 text-white"
                 : active ? "bg-orange-500 text-white ring-4 ring-orange-500/25"
-                         : "bg-white/8 text-white/30 border border-white/10"}`}>
+                         : "bg-muted text-muted-foreground/50 border border-border"}`}>
                 {done ? <CheckCircle className="h-4 w-4" /> : s.n}
               </div>
-              <span className={`text-xs font-medium ${active ? "text-orange-400" : done ? "text-green-400" : "text-white/30"}`}>
+              <span className={`text-xs font-medium ${active ? "text-orange-600 dark:text-orange-400" : done ? "text-green-400" : "text-muted-foreground/50"}`}>
                 {s.label}
               </span>
             </div>
             {i < STEPS.length - 1 && (
-              <div className={`h-px w-10 sm:w-16 mx-2 mb-5 transition-colors ${done ? "bg-green-500" : "bg-white/10"}`} />
+              <div className={`h-px w-10 sm:w-16 mx-2 mb-5 transition-colors ${done ? "bg-green-500" : "bg-border"}`} />
             )}
           </div>
         )
@@ -90,12 +90,12 @@ function StepIndicator({ current }: { current: Step }) {
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
-const inputCls = "h-11 border-white/10 bg-white/5 text-white placeholder:text-white/25 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+const inputCls = "h-11 border-border bg-muted/50 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs font-semibold uppercase tracking-wider text-white/45">{label}</Label>
+      <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</Label>
       {children}
     </div>
   )
@@ -138,11 +138,11 @@ function StepAddress({
           <select
             value={form.province}
             onChange={set("province")}
-            className="w-full h-11 rounded-md border border-white/10 bg-white/5 text-white text-sm px-3 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/25"
+            className="w-full h-11 rounded-md border border-border bg-muted/50 text-foreground text-sm px-3 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/25"
           >
-            <option value="" className="bg-[#0D1525]">Select province…</option>
+            <option value="" className="bg-popover">Select province…</option>
             {PROVINCES.map((p) => (
-              <option key={p} value={p} className="bg-[#0D1525]">{p}</option>
+              <option key={p} value={p} className="bg-popover">{p}</option>
             ))}
           </select>
         </Field>
@@ -152,7 +152,7 @@ function StepAddress({
       </Field>
 
       <div className="flex gap-3 pt-2">
-        <Button variant="ghost" onClick={onBack} className="h-11 px-5 text-white/50 hover:text-white hover:bg-white/5">
+        <Button variant="ghost" onClick={onBack} className="h-11 px-5 text-muted-foreground hover:text-foreground hover:bg-muted/50">
           <ChevronLeft className="h-4 w-4 mr-1" /> Back
         </Button>
         <Button
@@ -182,8 +182,8 @@ function StepDelivery({
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-white/50">
-        Delivering to <span className="font-semibold text-white">{province}</span>
+      <p className="text-sm text-muted-foreground">
+        Delivering to <span className="font-semibold text-foreground">{province}</span>
       </p>
 
       <div className="space-y-3">
@@ -196,24 +196,24 @@ function StepDelivery({
               key={opt.id}
               onClick={() => onSelect(opt.id)}
               className={`w-full flex items-center gap-4 rounded-xl border p-5 text-left transition-all
-                ${isActive ? "border-orange-500 bg-orange-500/10" : "border-white/8 bg-white/3 hover:border-white/20"}`}
+                ${isActive ? "border-orange-500 bg-orange-500/10" : "border-border/50 bg-muted/30 hover:border-border"}`}
             >
               <div className={`h-11 w-11 rounded-xl flex items-center justify-center flex-shrink-0
-                ${isActive ? "bg-orange-500/20 text-orange-400" : "bg-white/6 text-white/35"}`}>
+                ${isActive ? "bg-orange-500/20 text-orange-600 dark:text-orange-400" : "bg-muted/50 text-muted-foreground"}`}>
                 <Icon className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <p className={`font-semibold ${isActive ? "text-white" : "text-white/70"}`}>{opt.label}</p>
-                <p className="text-sm text-white/40 mt-0.5">{opt.days}</p>
+                <p className={`font-semibold ${isActive ? "text-foreground" : "text-muted-foreground"}`}>{opt.label}</p>
+                <p className="text-sm text-muted-foreground mt-0.5">{opt.days}</p>
               </div>
               <div className="text-right flex-shrink-0">
                 {price === 0
                   ? <span className="text-base font-bold text-green-400">FREE</span>
-                  : <span className={`text-base font-bold ${isActive ? "text-orange-400" : "text-white/55"}`}>${price.toFixed(2)}</span>
+                  : <span className={`text-base font-bold ${isActive ? "text-orange-600 dark:text-orange-400" : "text-muted-foreground"}`}>${price.toFixed(2)}</span>
                 }
               </div>
               <div className={`h-5 w-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center
-                ${isActive ? "border-orange-500 bg-orange-500" : "border-white/20"}`}>
+                ${isActive ? "border-orange-500 bg-orange-500" : "border-border"}`}>
                 {isActive && <div className="h-2 w-2 rounded-full bg-white" />}
               </div>
             </button>
@@ -224,14 +224,14 @@ function StepDelivery({
       {isFreeZone && (
         <div className="flex items-start gap-2.5 rounded-xl bg-green-500/8 border border-green-500/15 px-4 py-3">
           <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-white/60">
+          <p className="text-sm text-muted-foreground">
             Standard delivery is <span className="text-green-400 font-semibold">FREE</span> for Phnom Penh orders.
           </p>
         </div>
       )}
 
       <div className="flex gap-3 pt-2">
-        <Button variant="ghost" onClick={onBack} className="h-11 px-5 text-white/50 hover:text-white hover:bg-white/5">
+        <Button variant="ghost" onClick={onBack} className="h-11 px-5 text-muted-foreground hover:text-foreground hover:bg-muted/50">
           <ChevronLeft className="h-4 w-4 mr-1" /> Back
         </Button>
         <Button
@@ -292,35 +292,35 @@ function StepPayment({
     <div className="space-y-5">
 
       {/* Order summary */}
-      <div className="rounded-xl border border-white/8 bg-white/3 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-white/35 mb-3">Order Summary</p>
+      <div className="rounded-xl border border-border/50 bg-muted/30 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Order Summary</p>
         <div className="flex gap-4">
-          <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-white/5 border border-white/8 flex-shrink-0">
+          <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-muted/50 border border-border/50 flex-shrink-0">
             <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" sizes="64px" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-white line-clamp-2">{product.name}</p>
+            <p className="font-semibold text-foreground line-clamp-2">{product.name}</p>
             <div className="flex flex-wrap gap-x-3 mt-1">
-              {size  && <span className="text-xs text-white/40">Size: {size}</span>}
-              {color && <span className="text-xs text-white/40">Color: {color}</span>}
-              <span className="text-xs text-white/40">Qty: {quantity}</span>
+              {size  && <span className="text-xs text-muted-foreground">Size: {size}</span>}
+              {color && <span className="text-xs text-muted-foreground">Color: {color}</span>}
+              <span className="text-xs text-muted-foreground">Qty: {quantity}</span>
             </div>
           </div>
-          <p className="font-bold text-white flex-shrink-0">${subtotal.toFixed(2)}</p>
+          <p className="font-bold text-foreground flex-shrink-0">${subtotal.toFixed(2)}</p>
         </div>
       </div>
 
       {/* Coupon */}
-      <div className="rounded-xl border border-white/8 bg-white/3 p-4 space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-white/35">Coupon Code</p>
+      <div className="rounded-xl border border-border/50 bg-muted/30 p-4 space-y-3">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Coupon Code</p>
         {applied ? (
           <div className="flex items-center justify-between gap-2 rounded-lg bg-green-500/10 border border-green-500/20 px-4 py-3">
             <div className="flex items-center gap-2">
               <Tag className="h-4 w-4 text-green-400" />
               <span className="font-semibold text-green-400">{applied}</span>
-              <span className="text-sm text-white/50">— {couponData?.label}</span>
+              <span className="text-sm text-muted-foreground">— {couponData?.label}</span>
             </div>
-            <button onClick={() => setApplied(null)} className="text-white/30 hover:text-red-400 transition-colors">
+            <button onClick={() => setApplied(null)} className="text-muted-foreground/50 hover:text-red-400 transition-colors">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -337,7 +337,7 @@ function StepPayment({
               <Button
                 onClick={applyCoupon}
                 disabled={!coupon.trim()}
-                className="h-11 px-5 bg-white/8 hover:bg-white/14 border border-white/10 text-white font-semibold"
+                className="h-11 px-5 bg-muted hover:bg-muted/70 border border-border text-foreground font-semibold"
               >
                 Apply
               </Button>
@@ -353,10 +353,10 @@ function StepPayment({
       </div>
 
       {/* Price breakdown */}
-      <div className="rounded-xl border border-white/8 bg-white/3 p-4 space-y-3">
+      <div className="rounded-xl border border-border/50 bg-muted/30 p-4 space-y-3">
         <div className="flex justify-between text-sm">
-          <span className="text-white/55">Subtotal</span>
-          <span className="text-white">${subtotal.toFixed(2)}</span>
+          <span className="text-muted-foreground">Subtotal</span>
+          <span className="text-foreground">${subtotal.toFixed(2)}</span>
         </div>
         {discount > 0 && (
           <div className="flex justify-between text-sm">
@@ -365,21 +365,21 @@ function StepPayment({
           </div>
         )}
         <div className="flex justify-between text-sm">
-          <span className="text-white/55">Shipping ({deliveryOpt.label})</span>
-          <span className={shipping === 0 ? "text-green-400 font-medium" : "text-white"}>
+          <span className="text-muted-foreground">Shipping ({deliveryOpt.label})</span>
+          <span className={shipping === 0 ? "text-green-400 font-medium" : "text-foreground"}>
             {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
           </span>
         </div>
-        <div className="h-px bg-white/8" />
+        <div className="h-px bg-border/50" />
         <div className="flex justify-between items-center">
-          <span className="font-bold text-white text-base">Total</span>
-          <span className="text-2xl font-black text-orange-400">${total.toFixed(2)}</span>
+          <span className="font-bold text-foreground text-base">Total</span>
+          <span className="text-2xl font-black text-orange-600 dark:text-orange-400">${total.toFixed(2)}</span>
         </div>
       </div>
 
       {/* Payment method */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-white/35">Payment Method</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Payment Method</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {PAYMENT_METHODS.map((m) => {
             const Icon     = m.icon
@@ -389,15 +389,15 @@ function StepPayment({
                 key={m.id}
                 onClick={() => setPayMethod(m.id)}
                 className={`flex items-center gap-3 rounded-xl border p-4 text-left transition-all
-                  ${isActive ? "border-orange-500 bg-orange-500/10" : "border-white/8 bg-white/3 hover:border-white/20"}`}
+                  ${isActive ? "border-orange-500 bg-orange-500/10" : "border-border/50 bg-muted/30 hover:border-border"}`}
               >
                 <div className={`h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0
-                  ${isActive ? "bg-orange-500/20 text-orange-400" : "bg-white/6 text-white/35"}`}>
+                  ${isActive ? "bg-orange-500/20 text-orange-600 dark:text-orange-400" : "bg-muted/50 text-muted-foreground"}`}>
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className={`text-sm font-semibold ${isActive ? "text-white" : "text-white/65"}`}>{m.label}</p>
-                  <p className="text-xs text-white/35 mt-0.5">{m.note}</p>
+                  <p className={`text-sm font-semibold ${isActive ? "text-foreground" : "text-muted-foreground"}`}>{m.label}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{m.note}</p>
                 </div>
               </button>
             )
@@ -406,7 +406,7 @@ function StepPayment({
       </div>
 
       <div className="flex gap-3 pt-2">
-        <Button variant="ghost" onClick={onBack} className="h-12 px-5 text-white/50 hover:text-white hover:bg-white/5">
+        <Button variant="ghost" onClick={onBack} className="h-12 px-5 text-muted-foreground hover:text-foreground hover:bg-muted/50">
           <ChevronLeft className="h-4 w-4 mr-1" /> Back
         </Button>
         <Button
@@ -446,40 +446,40 @@ function StepSuccess({ orderNum }: { orderNum: string }) {
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-2xl font-black text-white" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-2xl font-black text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
           Order Placed!
         </h2>
-        <p className="text-white/55 leading-6">
+        <p className="text-muted-foreground leading-6">
           Thank you for shopping with SportGear Pro. We will confirm your order shortly via Telegram or phone.
         </p>
       </div>
 
-      <div className="w-full rounded-xl border border-white/8 bg-white/3 p-5 space-y-3 text-left">
+      <div className="w-full rounded-xl border border-border/50 bg-muted/30 p-5 space-y-3 text-left">
         <div className="flex justify-between text-sm">
-          <span className="text-white/50">Order Number</span>
-          <span className="font-bold text-orange-400">{orderNum}</span>
+          <span className="text-muted-foreground">Order Number</span>
+          <span className="font-bold text-orange-600 dark:text-orange-400">{orderNum}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-white/50">Status</span>
+          <span className="text-muted-foreground">Status</span>
           <span className="font-semibold text-green-400">Confirmed</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-white/50">Estimated Delivery</span>
-          <span className="font-semibold text-white">2 – 5 business days</span>
+          <span className="text-muted-foreground">Estimated Delivery</span>
+          <span className="font-semibold text-foreground">2 – 5 business days</span>
         </div>
       </div>
 
       <div className="flex items-start gap-3 w-full rounded-xl bg-blue-500/8 border border-blue-500/15 px-4 py-3.5 text-left">
         <AlertCircle className="h-5 w-5 text-blue-400 flex-shrink-0 mt-0.5" />
-        <p className="text-sm text-white/60">
-          Our team will contact you via <span className="text-white font-semibold">Telegram or WhatsApp</span> within
+        <p className="text-sm text-muted-foreground">
+          Our team will contact you via <span className="text-foreground font-semibold">Telegram or WhatsApp</span> within
           30 minutes to confirm your order and delivery details.
         </p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 w-full pt-2">
         <Link href="/shop" className="flex-1">
-          <Button variant="outline" className="w-full h-11 border-white/15 text-white/70 hover:text-white hover:bg-white/5">
+          <Button variant="outline" className="w-full h-11 border-border text-muted-foreground hover:text-foreground hover:bg-muted/50">
             Continue Shopping
           </Button>
         </Link>
@@ -520,22 +520,22 @@ export function BuyNowClient({
   const [orderNum,   setOrderNum] = useState("")
 
   return (
-    <div className="min-h-screen bg-[#050A14]">
+    <div className="min-h-screen bg-background">
       {/* Page header bar */}
-      <div className="border-b border-white/8 bg-[#0D1525] px-4 py-4">
+      <div className="border-b border-border/50 bg-card px-4 py-4">
         <div className="mx-auto max-w-2xl flex items-center justify-between gap-4">
           {step < 4 ? (
             <button
               onClick={() => step === 1 ? router.back() : setStep((s) => (s - 1) as Step)}
-              className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
               {step === 1 ? "Back to Product" : "Back"}
             </button>
           ) : <div />}
           <div className="text-right">
-            <p className="text-xs text-white/35 font-medium uppercase tracking-wider">Buy Now</p>
-            <p className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Buy Now</p>
+            <p className="text-sm font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
               {STEP_TITLES[step]}
             </p>
           </div>
@@ -543,7 +543,7 @@ export function BuyNowClient({
       </div>
 
       {/* Step indicator */}
-      <div className="border-b border-white/8 bg-[#0D1525] px-4 py-5">
+      <div className="border-b border-border/50 bg-card px-4 py-5">
         <div className="mx-auto max-w-2xl">
           <StepIndicator current={step} />
         </div>
@@ -551,20 +551,20 @@ export function BuyNowClient({
 
       {/* Product mini-card (steps 1–3) */}
       {step < 4 && (
-        <div className="border-b border-white/8 bg-[#0D1525]/50 px-4 py-4">
+        <div className="border-b border-border/50 bg-card/50 px-4 py-4">
           <div className="mx-auto max-w-2xl flex items-center gap-3">
-            <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-white/5 border border-white/8 flex-shrink-0">
+            <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-muted/50 border border-border/50 flex-shrink-0">
               <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" sizes="48px" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white line-clamp-1">{product.name}</p>
+              <p className="text-sm font-semibold text-foreground line-clamp-1">{product.name}</p>
               <div className="flex flex-wrap gap-x-3 mt-0.5">
-                {size  && <span className="text-xs text-white/40">Size: {size}</span>}
-                {color && <span className="text-xs text-white/40">Color: {color}</span>}
-                <span className="text-xs text-white/40">Qty: {quantity}</span>
+                {size  && <span className="text-xs text-muted-foreground">Size: {size}</span>}
+                {color && <span className="text-xs text-muted-foreground">Color: {color}</span>}
+                <span className="text-xs text-muted-foreground">Qty: {quantity}</span>
               </div>
             </div>
-            <p className="text-sm font-bold text-orange-400 flex-shrink-0">
+            <p className="text-sm font-bold text-orange-600 dark:text-orange-400 flex-shrink-0">
               ${(product.price * quantity).toFixed(2)}
             </p>
           </div>
@@ -574,7 +574,7 @@ export function BuyNowClient({
       {/* Step content */}
       <main className="px-4 py-8">
         <div className="mx-auto max-w-2xl">
-          <div className="rounded-2xl border border-white/8 bg-[#0D1525]/70 p-6 md:p-8">
+          <div className="rounded-2xl border border-border/50 bg-card/70 p-6 md:p-8">
             {step === 1 && (
               <StepAddress
                 form={address}

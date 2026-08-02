@@ -27,12 +27,12 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="rounded-2xl border border-white/8 bg-[#0D1525]/70 p-6 md:p-7">
+    <div className="rounded-2xl border border-border bg-card/70 p-6 md:p-7">
       <div className="flex items-center gap-3 mb-5">
         <div className="h-10 w-10 rounded-xl bg-orange-500/15 flex items-center justify-center flex-shrink-0">
           {icon}
         </div>
-        <h2 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
           {title}
         </h2>
       </div>
@@ -49,11 +49,11 @@ function Badge({
   color?: "orange" | "green" | "blue" | "red" | "amber"
 }) {
   const cls = {
-    orange: "bg-orange-500/15 text-orange-400 border-orange-500/20",
-    green:  "bg-green-500/15  text-green-400  border-green-500/20",
-    blue:   "bg-blue-500/15   text-blue-400   border-blue-500/20",
-    red:    "bg-red-500/15    text-red-400     border-red-500/20",
-    amber:  "bg-amber-500/15  text-amber-400  border-amber-500/20",
+    orange: "bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-500/20",
+    green:  "bg-green-500/15  text-green-600 dark:text-green-400  border-green-500/20",
+    blue:   "bg-blue-500/15   text-blue-600 dark:text-blue-400   border-blue-500/20",
+    red:    "bg-red-500/15    text-red-600 dark:text-red-400     border-red-500/20",
+    amber:  "bg-amber-500/15  text-amber-600 dark:text-amber-400  border-amber-500/20",
   }[color]
   return (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${cls}`}>
@@ -73,12 +73,12 @@ function Step({
 }) {
   return (
     <div className="flex gap-4">
-      <div className="h-8 w-8 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-black flex items-center justify-center flex-shrink-0 mt-0.5">
+      <div className="h-8 w-8 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-600 dark:text-orange-400 text-sm font-black flex items-center justify-center flex-shrink-0 mt-0.5">
         {number}
       </div>
       <div>
-        <p className="text-sm font-semibold text-white">{title}</p>
-        <p className="text-xs text-white/50 mt-0.5 leading-5">{description}</p>
+        <p className="text-sm font-semibold text-foreground">{title}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 leading-5">{description}</p>
       </div>
     </div>
   )
@@ -89,13 +89,13 @@ function Step({
 export default function ReturnsPage() {
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
 
         <main className="flex-1">
 
           {/* ── Hero ──────────────────────────────────────────────────────────── */}
-          <section className="relative border-b border-white/10 bg-[#0D1525] px-4 py-16 text-center md:py-24 overflow-hidden">
+          <section className="relative border-b border-border bg-card px-4 py-16 text-center md:py-24 overflow-hidden">
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div className="h-64 w-64 rounded-full bg-orange-500/8 blur-3xl" />
             </div>
@@ -105,12 +105,12 @@ export default function ReturnsPage() {
                 <RefreshCcw className="h-8 w-8 text-white" />
               </div>
               <h1
-                className="font-heading text-3xl font-bold text-white md:text-5xl"
+                className="font-heading text-3xl font-bold text-foreground md:text-5xl"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 Returns &amp; Refunds
               </h1>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/55">
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
                 Not happy with your purchase? We make returns simple for customers across Cambodia.
                 Read our policy below to understand your options.
               </p>
@@ -136,18 +136,18 @@ export default function ReturnsPage() {
                 ].map(({ label, value, sub }) => (
                   <div
                     key={label}
-                    className="rounded-2xl border border-white/8 bg-[#0D1525]/70 px-4 py-4 text-center"
+                    className="rounded-2xl border border-border bg-card/70 px-4 py-4 text-center"
                   >
-                    <p className="text-xl font-black text-orange-400">{value}</p>
-                    <p className="text-xs font-semibold text-white mt-0.5">{label}</p>
-                    <p className="text-xs text-white/35 mt-0.5">{sub}</p>
+                    <p className="text-xl font-black text-orange-600 dark:text-orange-400">{value}</p>
+                    <p className="text-xs font-semibold text-foreground mt-0.5">{label}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{sub}</p>
                   </div>
                 ))}
               </div>
 
               {/* Eligible Items */}
-              <SectionCard icon={<CheckCircle className="h-5 w-5 text-orange-400" />} title="Eligible for Return">
-                <p className="text-sm text-white/55 leading-6 mb-4">
+              <SectionCard icon={<CheckCircle className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Eligible for Return">
+                <p className="text-sm text-muted-foreground leading-6 mb-4">
                   We accept returns on items that meet all of the following conditions:
                 </p>
                 <div className="space-y-2.5">
@@ -159,8 +159,8 @@ export default function ReturnsPage() {
                     "Proof of purchase (order number or receipt) is provided",
                     "Item matches what was originally ordered (correct product, SKU, size, color)",
                   ].map((item) => (
-                    <div key={item} className="flex items-start gap-2.5 text-sm text-white/70">
-                      <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0 mt-0.5" />
+                    <div key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                      <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                       {item}
                     </div>
                   ))}
@@ -168,8 +168,8 @@ export default function ReturnsPage() {
               </SectionCard>
 
               {/* Non-Eligible Items */}
-              <SectionCard icon={<XCircle className="h-5 w-5 text-orange-400" />} title="Non-Returnable Items">
-                <p className="text-sm text-white/55 leading-6 mb-4">
+              <SectionCard icon={<XCircle className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Non-Returnable Items">
+                <p className="text-sm text-muted-foreground leading-6 mb-4">
                   The following items cannot be returned or exchanged:
                 </p>
                 <div className="space-y-2.5">
@@ -182,24 +182,24 @@ export default function ReturnsPage() {
                     "Gift cards and store credits",
                     "Items damaged due to misuse, accidents, or improper care",
                   ].map((item) => (
-                    <div key={item} className="flex items-start gap-2.5 text-sm text-white/70">
-                      <XCircle className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
+                    <div key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                      <XCircle className="h-4 w-4 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                       {item}
                     </div>
                   ))}
                 </div>
                 <div className="mt-5 flex items-start gap-2.5 rounded-xl bg-amber-500/8 border border-amber-500/15 px-4 py-3">
-                  <AlertCircle className="h-4 w-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-white/60">
+                  <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-muted-foreground">
                     If you receive a defective or wrong item, it is eligible for a full return or free exchange
-                    regardless of the above conditions. Please contact us within <span className="text-white font-medium">48 hours</span> of delivery.
+                    regardless of the above conditions. Please contact us within <span className="text-foreground font-medium">48 hours</span> of delivery.
                   </p>
                 </div>
               </SectionCard>
 
               {/* How to Return */}
-              <SectionCard icon={<FileText className="h-5 w-5 text-orange-400" />} title="How to Start a Return">
-                <p className="text-sm text-white/55 leading-6 mb-5">
+              <SectionCard icon={<FileText className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="How to Start a Return">
+                <p className="text-sm text-muted-foreground leading-6 mb-5">
                   Follow these steps to initiate a return or exchange:
                 </p>
                 <div className="space-y-5">
@@ -232,7 +232,7 @@ export default function ReturnsPage() {
               </SectionCard>
 
               {/* Return Shipping */}
-              <SectionCard icon={<Package className="h-5 w-5 text-orange-400" />} title="Return Shipping Costs">
+              <SectionCard icon={<Package className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Return Shipping Costs">
                 <div className="space-y-3">
                   {[
                     {
@@ -258,22 +258,22 @@ export default function ReturnsPage() {
                   ].map(({ scenario, cost, color }) => (
                     <div
                       key={scenario}
-                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-white/8 bg-white/3 px-4 py-3"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-border bg-muted/50 px-4 py-3"
                     >
-                      <span className="text-sm text-white/65">{scenario}</span>
+                      <span className="text-sm text-muted-foreground">{scenario}</span>
                       <Badge color={color}>{cost}</Badge>
                     </div>
                   ))}
                 </div>
-                <p className="mt-4 text-sm text-white/45 leading-6">
+                <p className="mt-4 text-sm text-muted-foreground leading-6">
                   For province returns, we recommend using Kerry Express or J&T Express for reliable tracking.
                   Please keep your courier receipt until the refund is confirmed.
                 </p>
               </SectionCard>
 
               {/* Refund Methods */}
-              <SectionCard icon={<Banknote className="h-5 w-5 text-orange-400" />} title="Refund Methods">
-                <p className="text-sm text-white/55 leading-6 mb-5">
+              <SectionCard icon={<Banknote className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Refund Methods">
+                <p className="text-sm text-muted-foreground leading-6 mb-5">
                   Refunds are returned using the same method as your original payment where possible.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -285,16 +285,16 @@ export default function ReturnsPage() {
                     { method: "COD (Cash on Delivery)", timeline: "3 – 5 business days", note: "Via ABA or Wing transfer" },
                     { method: "Store Credit",          timeline: "Same day",             note: "Applied to your account" },
                   ].map(({ method, timeline, note }) => (
-                    <div key={method} className="rounded-xl border border-white/8 bg-white/3 px-4 py-3">
-                      <p className="text-sm font-semibold text-white">{method}</p>
-                      <p className="text-xs text-orange-400 font-medium mt-0.5">{timeline}</p>
-                      <p className="text-xs text-white/40 mt-0.5">{note}</p>
+                    <div key={method} className="rounded-xl border border-border bg-muted/50 px-4 py-3">
+                      <p className="text-sm font-semibold text-foreground">{method}</p>
+                      <p className="text-xs text-orange-600 dark:text-orange-400 font-medium mt-0.5">{timeline}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{note}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-5 flex items-start gap-2.5 rounded-xl bg-blue-500/8 border border-blue-500/15 px-4 py-3">
-                  <AlertCircle className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-white/60">
+                  <AlertCircle className="h-4 w-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-muted-foreground">
                     Original shipping fees are non-refundable unless the return is due to our error
                     (wrong item, defective product, or failed delivery on our part).
                   </p>
@@ -302,8 +302,8 @@ export default function ReturnsPage() {
               </SectionCard>
 
               {/* Exchanges */}
-              <SectionCard icon={<ArrowLeftRight className="h-5 w-5 text-orange-400" />} title="Exchanges">
-                <p className="text-sm text-white/55 leading-6 mb-5">
+              <SectionCard icon={<ArrowLeftRight className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Exchanges">
+                <p className="text-sm text-muted-foreground leading-6 mb-5">
                   Want a different size or colour? We make exchanges easy within the 14-day window.
                 </p>
                 <div className="space-y-3">
@@ -326,25 +326,25 @@ export default function ReturnsPage() {
                   ].map(({ title, detail }) => (
                     <div
                       key={title}
-                      className="rounded-xl border border-white/8 bg-white/3 px-4 py-3.5"
+                      className="rounded-xl border border-border bg-muted/50 px-4 py-3.5"
                     >
-                      <p className="text-sm font-semibold text-white">{title}</p>
-                      <p className="text-xs text-white/50 mt-1 leading-5">{detail}</p>
+                      <p className="text-sm font-semibold text-foreground">{title}</p>
+                      <p className="text-xs text-muted-foreground mt-1 leading-5">{detail}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-5 flex items-start gap-2.5 rounded-xl bg-green-500/8 border border-green-500/15 px-4 py-3">
-                  <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-white/60">
+                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-muted-foreground">
                     Exchange items are dispatched once the original item is received and passes inspection.
-                    Phnom Penh exchanges are typically completed within <span className="text-white font-medium">3 business days</span>.
+                    Phnom Penh exchanges are typically completed within <span className="text-foreground font-medium">3 business days</span>.
                   </p>
                 </div>
               </SectionCard>
 
               {/* Damaged or Wrong Items */}
-              <SectionCard icon={<ShieldCheck className="h-5 w-5 text-orange-400" />} title="Damaged or Wrong Items">
-                <p className="text-sm text-white/55 leading-6 mb-5">
+              <SectionCard icon={<ShieldCheck className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Damaged or Wrong Items">
+                <p className="text-sm text-muted-foreground leading-6 mb-5">
                   If your order arrives damaged or is not what you ordered, you are fully protected.
                 </p>
                 <div className="space-y-4">
@@ -366,12 +366,12 @@ export default function ReturnsPage() {
                     },
                   ].map(({ step, title, detail }) => (
                     <div key={step} className="flex gap-4">
-                      <div className="h-8 w-8 rounded-full bg-red-500/15 border border-red-500/25 text-red-400 text-sm font-black flex items-center justify-center flex-shrink-0">
+                      <div className="h-8 w-8 rounded-full bg-red-500/15 border border-red-500/25 text-red-600 dark:text-red-400 text-sm font-black flex items-center justify-center flex-shrink-0">
                         {step}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-white">{title}</p>
-                        <p className="text-xs text-white/50 mt-0.5 leading-5">{detail}</p>
+                        <p className="text-sm font-semibold text-foreground">{title}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5 leading-5">{detail}</p>
                       </div>
                     </div>
                   ))}
@@ -379,7 +379,7 @@ export default function ReturnsPage() {
               </SectionCard>
 
               {/* Return Timeline */}
-              <SectionCard icon={<Clock className="h-5 w-5 text-orange-400" />} title="Full Return Timeline">
+              <SectionCard icon={<Clock className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Full Return Timeline">
                 <div className="space-y-0">
                   {[
                     { event: "Submit return request",              time: "Day 0" },
@@ -392,18 +392,18 @@ export default function ReturnsPage() {
                   ].map(({ event, time }) => (
                     <div
                       key={event}
-                      className="flex items-center justify-between gap-4 py-3 border-b border-white/6 last:border-0"
+                      className="flex items-center justify-between gap-4 py-3 border-b border-border/50 last:border-0"
                     >
-                      <span className="text-sm text-white/60">{event}</span>
-                      <span className="text-sm font-semibold text-white text-right">{time}</span>
+                      <span className="text-sm text-muted-foreground">{event}</span>
+                      <span className="text-sm font-semibold text-foreground text-right">{time}</span>
                     </div>
                   ))}
                 </div>
               </SectionCard>
 
               {/* Contact */}
-              <SectionCard icon={<Phone className="h-5 w-5 text-orange-400" />} title="Returns Support">
-                <p className="text-sm text-white/55 leading-6 mb-5">
+              <SectionCard icon={<Phone className="h-5 w-5 text-orange-600 dark:text-orange-400" />} title="Returns Support">
+                <p className="text-sm text-muted-foreground leading-6 mb-5">
                   Our Cambodia-based support team handles all return and refund requests.
                   We aim to respond within 2 hours during business hours.
                 </p>
@@ -414,17 +414,17 @@ export default function ReturnsPage() {
                     { label: "Email",             value: "returns@sportgear.kh", note: "Reply within 24 hours" },
                     { label: "Facebook Page",     value: "SportGear Pro KH",     note: "Messages & comments" },
                   ].map(({ label, value, note }) => (
-                    <div key={label} className="rounded-xl border border-white/8 bg-white/3 px-4 py-3">
-                      <p className="text-xs text-white/40 uppercase tracking-wider font-semibold mb-0.5">{label}</p>
-                      <p className="text-sm font-semibold text-orange-400">{value}</p>
-                      <p className="text-xs text-white/40 mt-0.5">{note}</p>
+                    <div key={label} className="rounded-xl border border-border bg-muted/50 px-4 py-3">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-0.5">{label}</p>
+                      <p className="text-sm font-semibold text-orange-600 dark:text-orange-400">{value}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{note}</p>
                     </div>
                   ))}
                 </div>
               </SectionCard>
 
               {/* Last updated */}
-              <p className="text-center text-xs text-white/25 pt-2">
+              <p className="text-center text-xs text-muted-foreground pt-2">
                 Returns policy last updated: August 2026 · Applies to orders within the Kingdom of Cambodia 🇰🇭
               </p>
 

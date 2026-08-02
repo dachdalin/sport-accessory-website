@@ -28,7 +28,7 @@ export function DeleteAccountDialog({ triggerClassName }: Props) {
       description={
         <>
           This will permanently erase your account, order history, saved addresses, and wishlist.
-          This action <span className="text-white font-medium">cannot be undone</span>.
+          This action <span className="text-foreground font-medium">cannot be undone</span>.
         </>
       }
       confirmLabel="Delete Account"

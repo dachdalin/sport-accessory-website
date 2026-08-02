@@ -11,7 +11,7 @@ import { CartProvider } from "@/lib/cart-context"
 export default function HomePage() {
   return (
     <CartProvider>
-      <div className="min-h-screen flex flex-col bg-[#050A14]">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1">
           <HeroSection />

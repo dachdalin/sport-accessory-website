@@ -34,10 +34,10 @@ export function ProfileCard({ user, onUserUpdate }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-6">
+    <div className="rounded-2xl border border-border bg-card/80 p-6">
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
-        <h2 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
           Personal Info
         </h2>
         {!isEditing ? (
@@ -45,7 +45,7 @@ export function ProfileCard({ user, onUserUpdate }: Props) {
             size="sm"
             variant="ghost"
             onClick={startEditing}
-            className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10 gap-1.5 h-8"
+            className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 hover:bg-orange-500/10 gap-1.5 h-8"
           >
             <Pencil className="h-3.5 w-3.5" />
             Edit
@@ -60,7 +60,7 @@ export function ProfileCard({ user, onUserUpdate }: Props) {
               size="sm"
               variant="ghost"
               onClick={() => setIsEditing(false)}
-              className="text-white/60 hover:text-white hover:bg-white/5 h-8"
+              className="text-muted-foreground hover:text-foreground hover:bg-muted h-8"
             >
               <X className="h-3.5 w-3.5" />
             </Button>
@@ -74,8 +74,8 @@ export function ProfileCard({ user, onUserUpdate }: Props) {
           {user.initials}
         </div>
         <div>
-          <p className="font-semibold text-white">{user.name}</p>
-          <p className="text-sm text-white/45">Member since {user.memberSince}</p>
+          <p className="font-semibold text-foreground">{user.name}</p>
+          <p className="text-sm text-muted-foreground">Member since {user.memberSince}</p>
         </div>
       </div>
 
@@ -84,27 +84,27 @@ export function ProfileCard({ user, onUserUpdate }: Props) {
         <div className="space-y-4">
           {FIELDS.map(({ id, label, type, key }) => (
             <div key={id} className="space-y-1.5">
-              <Label htmlFor={id} className="text-white/70 text-sm">{label}</Label>
+              <Label htmlFor={id} className="text-muted-foreground text-sm">{label}</Label>
               <Input
                 id={id}
                 type={type}
                 value={editForm[key]}
                 onChange={(e) => setEditForm((p) => ({ ...p, [key]: e.target.value }))}
-                className="h-11 border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+                className="h-11 border-border bg-muted/50 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
               />
             </div>
           ))}
         </div>
       ) : (
-        <div className="divide-y divide-white/6">
+        <div className="divide-y divide-border">
           {[
             { label: "Full Name", value: user.name },
             { label: "Email",     value: user.email },
             { label: "Phone",     value: user.phone },
           ].map(({ label, value }) => (
             <div key={label} className="flex flex-col sm:flex-row sm:items-center gap-1 py-3 first:pt-0 last:pb-0">
-              <span className="text-sm text-white/45 sm:w-32 flex-shrink-0">{label}</span>
-              <span className="text-sm text-white">{value}</span>
+              <span className="text-sm text-muted-foreground sm:w-32 flex-shrink-0">{label}</span>
+              <span className="text-sm text-foreground">{value}</span>
             </div>
           ))}
         </div>

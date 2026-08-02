@@ -37,10 +37,10 @@ export function ProductCard({ product }: ProductCardProps) {
   const { hasDiscount, badgeLabel } = getDiscountInfo(product)
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white/4 border border-white/8 hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/5">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-muted/50 border border-border hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/5">
 
       {/* ── Image area ────────────────────────────────────────────────────────── */}
-      <Link href={`/product/${product.id}`} className="relative aspect-square overflow-hidden bg-white/5">
+      <Link href={`/product/${product.id}`} className="relative aspect-square overflow-hidden bg-muted/50">
         <Image
           src={product.image || "/placeholder.svg"}
           alt={product.name}
@@ -87,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-col flex-1 p-3 md:p-4">
         <Link href={`/product/${product.id}`}>
           <h3
-            className="font-bold text-white text-sm hover:text-orange-400 transition-colors line-clamp-1"
+            className="font-bold text-foreground text-sm hover:text-orange-600 dark:hover:text-orange-400 transition-colors line-clamp-1"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             {product.name}
@@ -96,26 +96,26 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Rating */}
         <div className="flex items-center gap-1 mt-1">
-          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-          <span className="text-xs text-white/40">{product.rating}</span>
+          <Star className="h-3 w-3 fill-amber-600 dark:fill-amber-400 text-amber-600 dark:text-amber-400" />
+          <span className="text-xs text-muted-foreground/40">{product.rating}</span>
         </div>
 
         {/* Price row */}
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/8">
+        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
           <div className="flex flex-col">
             {hasDiscount ? (
               <>
                 {/* Sale price */}
-                <span className="text-base font-black text-red-400 leading-tight">
+                <span className="text-base font-black text-red-600 dark:text-red-400 leading-tight">
                   ${product.price.toFixed(2)}
                 </span>
                 {/* Original price, struck through */}
-                <span className="text-xs text-white/35 line-through leading-tight mt-0.5">
+                <span className="text-xs text-muted-foreground/35 line-through leading-tight mt-0.5">
                   ${product.originalPrice!.toFixed(2)}
                 </span>
               </>
             ) : (
-              <span className="text-base font-black text-white">${product.price.toFixed(2)}</span>
+              <span className="text-base font-black text-foreground">${product.price.toFixed(2)}</span>
             )}
           </div>
 

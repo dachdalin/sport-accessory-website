@@ -18,7 +18,7 @@ function DashboardContent() {
   const [user, setUser] = useState<UserProfile>(MOCK_USER)
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#050A14]">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-8 lg:py-12">

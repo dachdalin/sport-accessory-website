@@ -28,7 +28,7 @@ interface ConfirmDialogProps {
 export function ConfirmDialog({
   trigger,
   icon,
-  iconBg = "bg-white/8",
+  iconBg = "bg-muted",
   title,
   description,
   confirmLabel,
@@ -39,20 +39,20 @@ export function ConfirmDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-      <AlertDialogContent className="bg-[#0D1525] border-white/10 text-white max-w-sm">
+      <AlertDialogContent className="bg-card border-border text-foreground max-w-sm">
         <AlertDialogHeader>
           {icon && (
             <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 mb-1 ${iconBg}`}>
               {icon}
             </div>
           )}
-          <AlertDialogTitle className="text-white text-lg">{title}</AlertDialogTitle>
-          <AlertDialogDescription className="text-white/50 text-sm leading-relaxed">
+          <AlertDialogTitle className="text-foreground text-lg">{title}</AlertDialogTitle>
+          <AlertDialogDescription className="text-muted-foreground text-sm leading-relaxed">
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="mt-2">
-          <AlertDialogCancel className="border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white">
+          <AlertDialogCancel className="border-border bg-muted text-foreground hover:bg-muted/70 hover:text-foreground">
             {cancelLabel}
           </AlertDialogCancel>
           <AlertDialogAction className={confirmClassName} onClick={onConfirm}>

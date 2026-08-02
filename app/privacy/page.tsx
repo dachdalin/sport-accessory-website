@@ -5,20 +5,20 @@ import { CartProvider } from "@/lib/cart-context"
 export default function PolicyPage() {
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col bg-[#050A14]">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
         <main className="flex-1">
-          <section className="border-b border-white/10 bg-[#0D1525] px-4 py-16 text-center md:py-20">
-            <h1 className="font-heading text-3xl font-bold text-white md:text-5xl">
+          <section className="border-b border-border bg-card px-4 py-16 text-center md:py-20">
+            <h1 className="font-heading text-3xl font-bold text-foreground md:text-5xl">
               Store Policy
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/55">
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
               Please read our store policy carefully before placing an order with SportGear Pro.
             </p>
           </section>
 
           <section className="px-4 py-14 md:py-20">
-            <div className="mx-auto max-w-3xl space-y-5 text-base leading-8 text-white/65">
+            <div className="mx-auto max-w-3xl space-y-5 text-base leading-8 text-muted-foreground">
               <p>
                 SportGear Pro is committed to providing quality sport accessories, clear product information, and a reliable shopping experience. Product images, descriptions, sizes, colors, and prices are presented as accurately as possible, but small differences may occur because of screen settings, supplier updates, or product availability.
               </p>

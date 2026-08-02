@@ -37,20 +37,20 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-16 md:py-24 bg-[#080D18] relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-card relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
 
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <p className="text-orange-400 text-sm font-bold uppercase tracking-widest mb-3">Why Us</p>
+          <p className="text-orange-600 dark:text-orange-400 text-sm font-bold uppercase tracking-widest mb-3">Why Us</p>
           <h2
-            className="text-3xl md:text-4xl font-black text-white"
+            className="text-3xl md:text-4xl font-black text-foreground"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Built for Cambodian Athletes
           </h2>
-          <p className="mt-4 text-white/40 max-w-xl mx-auto text-sm">
+          <p className="mt-4 text-muted-foreground/40 max-w-xl mx-auto text-sm">
             We understand what local athletes need — fast, affordable, and trustworthy.
           </p>
         </div>
@@ -63,12 +63,12 @@ export function FeaturesSection() {
             >
               <div className="text-3xl mb-4">{feature.emoji}</div>
               <h3
-                className="text-base font-bold text-white mb-2"
+                className="text-base font-bold text-foreground mb-2"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {feature.title}
               </h3>
-              <p className="text-sm text-white/50 leading-relaxed">
+              <p className="text-sm text-muted-foreground/50 leading-relaxed">
                 {feature.description}
               </p>
             </div>
@@ -84,10 +84,10 @@ export function FeaturesSection() {
             { value: "48h", label: "Avg. delivery time" },
           ].map(stat => (
             <div key={stat.label} className="flex flex-col items-center">
-              <span className="text-3xl font-black text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+              <span className="text-3xl font-black text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>
                 {stat.value}
               </span>
-              <span className="text-xs text-white/40 mt-1">{stat.label}</span>
+              <span className="text-xs text-muted-foreground/40 mt-1">{stat.label}</span>
             </div>
           ))}
         </div>

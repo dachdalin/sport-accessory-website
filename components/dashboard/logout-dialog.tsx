@@ -10,7 +10,7 @@ interface Props {
 }
 
 const DEFAULT_TRIGGER_CLASS =
-  "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/5 transition-all text-left"
+  "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all text-left"
 
 export function LogoutDialog({ triggerClassName, iconOnly }: Props) {
   const router = useRouter()
@@ -23,8 +23,8 @@ export function LogoutDialog({ triggerClassName, iconOnly }: Props) {
           {!iconOnly && "Logout"}
         </button>
       }
-      icon={<LogOut className="h-5 w-5 text-white/70" />}
-      iconBg="bg-white/8"
+      icon={<LogOut className="h-5 w-5 text-muted-foreground" />}
+      iconBg="bg-muted"
       title="Log out?"
       description="You will be signed out of your account. Your cart and wishlist will be cleared."
       confirmLabel="Yes, log out"

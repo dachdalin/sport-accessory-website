@@ -20,7 +20,7 @@ function PasswordStrengthBar({ password }: { password: string }) {
         <div
           key={level}
           className={`h-1 flex-1 rounded-full transition-colors ${
-            level <= strength ? colors[strength - 1] : "bg-white/10"
+            level <= strength ? colors[strength - 1] : "bg-muted"
           }`}
         />
       ))}
@@ -44,7 +44,7 @@ function PasswordInput({
   const [show, setShow] = useState(false)
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id} className="text-white/70 text-sm">{label}</Label>
+      <Label htmlFor={id} className="text-muted-foreground text-sm">{label}</Label>
       <div className="relative">
         <Input
           id={id}
@@ -52,12 +52,12 @@ function PasswordInput({
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-11 border-white/10 bg-white/5 pr-10 text-white placeholder:text-white/30 focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
+          className="h-11 border-border bg-muted/50 pr-10 text-foreground placeholder:text-muted-foreground focus-visible:border-orange-500 focus-visible:ring-orange-500/25"
         />
         <button
           type="button"
           onClick={() => setShow((v) => !v)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           aria-label={show ? "Hide password" : "Show password"}
         >
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -93,12 +93,12 @@ export function PasswordCard() {
   }
 
   return (
-    <div className="rounded-2xl border border-white/8 bg-[#0D1525]/80 p-6">
+    <div className="rounded-2xl border border-border bg-card/80 p-6">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-2.5">
-          <Shield className="h-4 w-4 text-orange-400" />
-          <h2 className="text-base font-bold text-white" style={{ fontFamily: "var(--font-heading)" }}>
+          <Shield className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+          <h2 className="text-base font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
             Security
           </h2>
         </div>
@@ -107,7 +107,7 @@ export function PasswordCard() {
             size="sm"
             variant="ghost"
             onClick={() => setIsChanging(true)}
-            className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10 gap-1.5 h-8"
+            className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 hover:bg-orange-500/10 gap-1.5 h-8"
           >
             <Pencil className="h-3.5 w-3.5" />
             Change Password
@@ -159,7 +159,7 @@ export function PasswordCard() {
               size="sm"
               variant="ghost"
               onClick={cancel}
-              className="text-white/55 hover:text-white hover:bg-white/5 h-9"
+              className="text-muted-foreground hover:text-foreground hover:bg-muted h-9"
             >
               Cancel
             </Button>
@@ -167,7 +167,7 @@ export function PasswordCard() {
         </div>
       ) : (
         !success && (
-          <p className="text-sm text-white/40">Keep your account secure with a strong password.</p>
+          <p className="text-sm text-muted-foreground">Keep your account secure with a strong password.</p>
         )
       )}
     </div>
