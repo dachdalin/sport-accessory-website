@@ -176,3 +176,7 @@ export function getProductsByCategory(category: string): Product[] {
 export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.rating >= 4.6).slice(0, 4)
 }
+
+export function getFlashSaleProducts(): Product[] {
+  return products.filter((p) => p.originalPrice != null && p.originalPrice > p.price)
+}

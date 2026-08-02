@@ -380,6 +380,7 @@ export function Header() {
   const navLinks = [
     { href: "/", label: t.home },
     { href: "/shop", label: t.shop },
+    { href: "/flash-sale", label: t.flashSaleNav, highlight: true },
     { href: "/about", label: t.about },
     { href: "/contact", label: t.contact },
   ]
@@ -427,16 +428,23 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 group ${
-                    active
-                      ? "text-foreground bg-muted"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                  className={`relative flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 group ${
+                    link.highlight
+                      ? active
+                        ? "text-red-600 dark:text-red-400 bg-red-500/10"
+                        : "text-red-600 dark:text-red-400 hover:bg-red-500/10"
+                      : active
+                        ? "text-foreground bg-muted"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
                   }`}
                 >
+                  {link.highlight && <Zap className="h-3.5 w-3.5 fill-current" />}
                   {link.label}
                   {/* Active underline indicator */}
                   <span
-                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-orange-500 dark:bg-orange-400 transition-all duration-300 ${
+                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-300 ${
+                      link.highlight ? "bg-red-500" : "bg-orange-500 dark:bg-orange-400"
+                    } ${
                       active ? "w-5 opacity-100" : "w-0 opacity-0 group-hover:w-3 group-hover:opacity-40"
                     }`}
                   />
@@ -628,13 +636,20 @@ export function Header() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={`flex items-center gap-3 text-base font-semibold px-4 py-3 rounded-xl transition-all ${
-                    active
-                      ? "text-orange-600 dark:text-orange-400 bg-orange-500/12 border border-orange-500/20"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent"
+                    link.highlight
+                      ? active
+                        ? "text-red-600 dark:text-red-400 bg-red-500/12 border border-red-500/20"
+                        : "text-red-600 dark:text-red-400 hover:bg-red-500/10 border border-transparent"
+                      : active
+                        ? "text-orange-600 dark:text-orange-400 bg-orange-500/12 border border-orange-500/20"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent"
                   }`}
                 >
-                  {/* Active dot */}
-                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${active ? "bg-orange-400" : "bg-muted-foreground/30"}`} />
+                  {link.highlight ? (
+                    <Zap className="h-4 w-4 flex-shrink-0 fill-current" />
+                  ) : (
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${active ? "bg-orange-400" : "bg-muted-foreground/30"}`} />
+                  )}
                   {link.label}
                   {active && <span className="ml-auto text-xs text-orange-600/70 dark:text-orange-400/70 font-medium">Current</span>}
                 </Link>
