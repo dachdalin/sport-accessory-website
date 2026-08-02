@@ -12,6 +12,7 @@ import { PasswordCard } from "@/components/dashboard/password-card"
 import { OrderSection } from "@/components/dashboard/order-section"
 import { WishlistSection } from "@/components/dashboard/wishlist-section"
 import { AddressSection } from "@/components/dashboard/address-section"
+import { SupportSection } from "@/components/dashboard/support-section"
 
 function DashboardContent() {
   const [activeTab, setActiveTab] = useState<Tab>("profile")
@@ -38,6 +39,7 @@ function DashboardContent() {
             {activeTab === "orders"   && <OrderSection />}
             {activeTab === "wishlist" && <WishlistSection />}
             {activeTab === "address"  && <AddressSection />}
+            {activeTab === "support"  && <SupportSection />}
 
             <DashboardMobileDeleteAccount />
           </div>
