@@ -1,6 +1,71 @@
 import Link from "next/link"
 import { Dumbbell, Facebook, Instagram, Youtube } from "lucide-react"
 
+// ─── Payment Logos ──────────────────────────────────────────────────────────────
+function LogoVisa() {
+  return (
+    <svg viewBox="0 0 48 30" width="40" height="25" role="img" aria-label="Visa">
+      <rect width="48" height="30" rx="4" fill="#fff" />
+      <text x="24" y="20" textAnchor="middle" fontFamily="Georgia, serif" fontStyle="italic" fontWeight="700" fontSize="13" fill="#1A1F71">VISA</text>
+    </svg>
+  )
+}
+
+function LogoMastercard() {
+  return (
+    <svg viewBox="0 0 48 30" width="40" height="25" role="img" aria-label="Mastercard">
+      <rect width="48" height="30" rx="4" fill="#fff" />
+      <circle cx="20" cy="15" r="9" fill="#EB001B" />
+      <circle cx="28" cy="15" r="9" fill="#F79E1B" fillOpacity="0.9" />
+    </svg>
+  )
+}
+
+function LogoABA() {
+  return (
+    <svg viewBox="0 0 48 30" width="40" height="25" role="img" aria-label="ABA Bank">
+      <rect width="48" height="30" rx="4" fill="#8B1E3F" />
+      <text x="24" y="19" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="12" fill="#fff">ABA</text>
+    </svg>
+  )
+}
+
+function LogoAcleda() {
+  return (
+    <svg viewBox="0 0 48 30" width="40" height="25" role="img" aria-label="ACLEDA Bank">
+      <rect width="48" height="30" rx="4" fill="#00458B" />
+      <text x="24" y="18" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="8.5" fill="#fff">ACLEDA</text>
+    </svg>
+  )
+}
+
+function LogoWing() {
+  return (
+    <svg viewBox="0 0 48 30" width="40" height="25" role="img" aria-label="Wing">
+      <rect width="48" height="30" rx="4" fill="#00A19A" />
+      <text x="24" y="19" textAnchor="middle" fontFamily="Arial, sans-serif" fontStyle="italic" fontWeight="800" fontSize="12" fill="#fff">Wing</text>
+    </svg>
+  )
+}
+
+function LogoPiPay() {
+  return (
+    <svg viewBox="0 0 48 30" width="40" height="25" role="img" aria-label="Pi Pay">
+      <rect width="48" height="30" rx="4" fill="#F26522" />
+      <text x="24" y="19" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="10.5" fill="#fff">PiPay</text>
+    </svg>
+  )
+}
+
+const paymentLogos = [
+  { label: "Visa", Logo: LogoVisa },
+  { label: "Mastercard", Logo: LogoMastercard },
+  { label: "ABA Bank", Logo: LogoABA },
+  { label: "ACLEDA", Logo: LogoAcleda },
+  { label: "Wing", Logo: LogoWing },
+  { label: "Pi Pay", Logo: LogoPiPay },
+]
+
 const footerLinks = {
   shop: [
     { href: "/shop?category=fitness", label: "Fitness" },
@@ -29,11 +94,15 @@ export function Footer() {
     <footer className="bg-background border-t border-border">
       {/* Payment strip */}
       <div className="border-b border-border py-4">
-        <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
-          <span className="text-muted-foreground text-xs">Accepted Payments:</span>
-          {["ABA Bank", "ACLEDA", "Wing", "Pi Pay", "Visa", "Mastercard"].map(p => (
-            <span key={p} className="text-xs text-muted-foreground font-semibold border border-border px-3 py-1 rounded-lg bg-muted/50">
-              {p}
+        <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+          <span className="text-muted-foreground text-xs mr-1">Accepted Payments:</span>
+          {paymentLogos.map(({ label, Logo }) => (
+            <span
+              key={label}
+              className="flex items-center justify-center rounded-lg border border-border bg-white p-1 shadow-sm"
+              title={label}
+            >
+              <Logo />
             </span>
           ))}
         </div>
